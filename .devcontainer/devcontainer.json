@@ -1,0 +1,86 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.245.0/containers/python-3
+{
+	"name": "TJTS5901 Dev Environment",
+	"build": {
+		"dockerfile": "../Dockerfile",
+		"context": "..",
+		"args": {
+			// Options
+			"NODE_VERSION": "lts/*",
+			// Setup the port for Flask. We'll use 5001 to avoid conflicts on Macs.
+			"PORT": "5001",
+			"PYTHON_PATH": "/usr/local"
+		}
+	},
+
+	// Use /app -folder as a workspace folder. Otherwise it will depend on repository name.
+	"workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind,consistency=cached",
+	"workspaceFolder": "/app",
+
+	"mounts": [
+		// Setup mountpoints for accessing secrets and services in host machine
+		// Docker-from-Docker, see https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/docs/docker.md
+		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+		// Kubernetes, see https://github.com/Microsoft/vscode-dev-containers/tree/main/containers/kubernetes-helm
+		"source=${env:HOME}${env:USERPROFILE}/.kube,target=/usr/local/share/kube-localhost,type=bind",
+		"source=${env:HOME}${env:USERPROFILE}/.minikube,target=/usr/local/share/minikube-localhost,type=bind",
+		// Static volume for vscode extensions
+		"source=tjts5901-vscode-extensions,target=/home/vscode/.vscode-server/extensions,type=volume"
+	],
+	"remoteEnv": {
+		"SYNC_LOCALHOST_KUBECONFIG": "true",
+	},
+	// Configure tool-specific properties.
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			// Set *default* container specific settings.json values on container create.
+			"settings": { 
+				"python.defaultInterpreterPath": "/usr/local/bin/python",
+				"python.linting.enabled": true,
+				"python.linting.pylintEnabled": true,
+				"python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
+				"python.formatting.blackPath": "/usr/local/py-utils/bin/black",
+				"python.formatting.yapfPath": "/usr/local/py-utils/bin/yapf",
+				"python.linting.banditPath": "/usr/local/py-utils/bin/bandit",
+				"python.linting.flake8Path": "/usr/local/py-utils/bin/flake8",
+				"python.linting.mypyPath": "/usr/local/py-utils/bin/mypy",
+				"python.linting.pycodestylePath": "/usr/local/py-utils/bin/pycodestyle",
+				"python.linting.pydocstylePath": "/usr/local/py-utils/bin/pydocstyle",
+				"python.linting.pylintPath": "/usr/local/py-utils/bin/pylint",
+				"[python]": {
+					"editor.rulers": [120]
+				},
+				// Enable the terminal to be used as the default shell.
+				"terminal.integrated.shellIntegration.enabled": true,
+			},
+
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"ms-azuretools.vscode-docker",
+				"ms-kubernetes-tools.vscode-aks-tools",
+				"redhat.vscode-yaml"
+			]
+		}
+	},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [ 5001 ],
+
+	// Use 'postCreateCommand' to run commands after the container is created, and install
+	// Additional packages used for development.
+	// "postCreateCommand": "pip install -r requirements-dev.txt",
+
+	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vscode",
+
+	"features": {
+		"docker-from-docker": "latest",
+		"kubectl-helm-minikube": "1.23",
+		// "terraform": "latest",
+		"azure-cli": "latest"
+	}
+}

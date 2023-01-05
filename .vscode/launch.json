@@ -1,0 +1,46 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Flask App",
+            "type": "python",
+            "request": "launch",
+            "module": "flask",
+            "env": {
+                "FLASK_APP": "tjts5901.app",
+                "FLASK_DEBUG": "1"
+            },
+            "args": [
+                "run",
+                "--no-debugger",
+                "--no-reload",
+                "--port=5001",
+            ],
+            "jinja": true,
+            "justMyCode": true
+        },
+        {
+            "name": "Build and Debug Container",
+            "type": "docker",
+            "request": "launch",
+            "preLaunchTask": "Docker-run: Debug Flask App",
+            "python": {
+              "pathMappings": [
+                {
+                  "localRoot": "${workspaceFolder}",
+                  "remoteRoot": "/app"
+                }
+              ],
+              "projectType": "flask"
+            },
+            "dockerServerReadyAction": {
+              "action": "openExternally",
+              "pattern": "Running on (http?://\\S+|[0-9]+)",
+              "uriFormat": "%s://localhost:%s/"
+            }
+          }
+    ]
+}
