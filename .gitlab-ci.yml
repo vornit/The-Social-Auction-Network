@@ -1,6 +1,11 @@
 ## Use docker image as a base image.
 image: docker:stable
 
+services:
+  ## Allow building docker images inside of docker. Notice that it's different
+  ## from Docker-from-Docker. https://docs.gitlab.com/ee/ci/docker/using_docker_build.html
+  - docker:dind
+
 stages:
   - build
   - deploy
@@ -13,12 +18,14 @@ cache:
 
 
 variables:
-  ## Setup image name -variable. Change this if you wish, but watch out
+  ## Name for the generated image. Change this if you wish, but watch out
   ## for special characters!
   DOCKER_IMAGE_NAME: tjts5901
-  
+
   ## (Optional) More verbose output from pipeline
   #CI_DEBUG_TRACE: "true"
+
+  DOCKER_TLS_CERTDIR: "/certs"
 
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
 
@@ -41,7 +48,7 @@ pages:
 
   script:
     ## Install `mkdocs` and generate HTML documentation.
-    - pip install --disable-pip-version-check mkdocs mkdocs-material
+    - pip install --disable-pip-version-check -r docs/requirements.txt
     - mkdocs build -f docs/mkdocs.yml
   artifacts:
     ## Artifacts are sent to gitlab, and accessible from there.
