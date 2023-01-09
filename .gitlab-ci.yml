@@ -4,7 +4,11 @@ image: docker:stable
 services:
   ## Allow building docker images inside of docker. Notice that it's different
   ## from Docker-from-Docker. https://docs.gitlab.com/ee/ci/docker/using_docker_build.html
-  - docker:20.10.16-dind
+  - name: docker:dind
+    entrypoint: ["env", "-u", "DOCKER_HOST"]
+    command: ["dockerd-entrypoint.sh"]
+    alias: docker
+
 
 stages:
   - build
