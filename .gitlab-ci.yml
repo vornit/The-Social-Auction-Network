@@ -34,6 +34,7 @@ variables:
   # shared volume for docker-in-docker
   DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
+  DOCKER_TLS_VERIFY: 1
 
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
 
