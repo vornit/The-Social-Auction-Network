@@ -29,7 +29,7 @@ variables:
   # the daemon started inside of the service. The daemon is available
   # with a network connection instead of the default
   # /var/run/docker.sock socket.
-  DOCKER_HOST: tcp://docker:2376
+  DOCKER_HOST: tcp://127.0.0.1:2376
 
   # shared volume for docker-in-docker
   DOCKER_TLS_CERTDIR: "/certs"
