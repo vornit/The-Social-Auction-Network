@@ -4,7 +4,7 @@ image: docker:stable
 services:
   ## Allow building docker images inside of docker. Notice that it's different
   ## from Docker-from-Docker. https://docs.gitlab.com/ee/ci/docker/using_docker_build.html
-  - docker:dind
+  - docker:18.09.7-dind
 
 stages:
   - build
