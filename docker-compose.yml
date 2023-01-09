@@ -1,0 +1,39 @@
+# Defines the application's Docker image and additional services
+# https://docs.docker.com/compose/compose-file/
+# To run using docker-compose, use the command:
+#   docker-compose up --build tjt5901-app
+
+version: '3'
+services:
+  tjts5901:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    # Ports to expose to the host.
+    ports:
+      - 5001:5001
+
+    # Volumes to mount from the host.
+    #volumes:
+      #- .:/app:cached
+      # Include system timezone information, so container doesn't use UTC
+      #- /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+
+    environment:
+      #- FLASK_APP=tjt5901:app
+      #- FLASK_DEBUG=1
+      - FLASK_RUN_PORT=5001
+
+    ## Don't restart container if it exits. Useful for debugging, not for production.
+    restart: 'no'
+
+    ## Override the default command.
+    #command: /bin/sh -c "sleep inf"
+
+
+  # Example for another service, such as a database.
+  # mongodb:
+  #   image: mongo:stable
+  #   restart: unless-stopped

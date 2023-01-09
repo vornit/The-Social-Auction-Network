@@ -18,29 +18,10 @@
 			}
 		},
 		{
-			"type": "docker-run",
-			"label": "Docker-run: Debug Flask App",
-			"dependsOn": [ "docker-build" ],
-			"dockerRun": {
-				"containerName": "tjts5901",
-				"image": "tjts5901:latest",
-				"env": {
-					"FLASK_APP": "tjts5901.app",
-					"FLASK_DEBUG": "1"
-				},
-				"volumes": [{
-					"containerPath": "/app",
-					"localPath": "${workspaceFolder}"
-				}],
-				"ports": [{
-					  "containerPort": 5001,
-					  "hostPort": 5001
-				}]
-			},
-			"python": {
-				"args": ["run", "--host", "0.0.0.0", "--port", "5001"],
-				"module": "flask"
-			}
+			"label": "Build Documentation",
+			"type": "shell",
+			"command": "pip install .[docs] && mkdocs build -f docs/mkdocs.yml",
+			"problemMatcher": []
 		}
 	]
 }

@@ -2,47 +2,71 @@
 ## ====================
 ##
 ## If you wish to build documentation, run:
-##  $ pip install mkdocs mkdocs-material
+##  $ pip install -r docs/requirements.txt
 ##  $ mkdocs build -f docs/mkdocs.yml
 
 site_name: JYU TJTS5901 Course Documentation
+site_author: University of Jyväskylä / StartupLab
+
 theme: 
   name: material
   features:
     - navigation.sections
-    - content.code.copy
     - toc.follow
-  font:
-    text: lato
-  logo: https://gitlab.jyu.fi/uploads/-/system/appearance/header_logo/1/jyu-logo3.png
 
-repo_url: https://gitlab.jyu.fi/startuplab/courses/tjts5901-continuous-software-engineering/TJTS5901-K23_template
-repo_name: tjts5901-continuous-software-engineering/TJTS5901-K23_template
-#edit_uri: -/edit/main/
+    - content.code.copy
+    - content.code.annotate
+
+    - content.action.edit
+    - content.action.view
+
+  logo: https://gitlab.jyu.fi/uploads/-/system/appearance/header_logo/1/jyu-logo3.png
+  icon:
+    repo: fontawesome/brands/gitlab
+
+extra_css:
+  - jyu-stylesheet.css
+
+repo_url: https://gitlab.jyu.fi/startuplab/courses/tjts5901-continuous-software-engineering/docs
+edit_uri: -/edit/main/
+repo_name: tjts5901-continuous-software-engineering/docs
 docs_dir: tjts5901
 site_dir: ../_docs
 
 markdown_extensions:
   - admonition
   - footnotes
+  - toc
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
+  - sane_lists
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+plugins:
+  - offline
+  - search
+  - git-revision-date-localized:
+      type: date
+      fallback_to_build_date: true
 
 extra:
   social:
     - icon: fontawesome/brands/gitlab
       link: https://gitlab.jyu.fi/startuplab/courses/tjts5901-continuous-software-engineering/TJTS5901-K23_template
+      name: Template repository
     - icon: fontawesome/solid/graduation-cap
       link: https://moodle.jyu.fi/course/view.php?id=20888
+      name: Moodle
     - icon: fontawesome/solid/fire
       link: https://sisu.jyu.fi/student/courseunit/otm-38b7f26b-1cf9-4d2d-a29b-e1dcb5c87f00
-
-plugins:
-  - offline
+      text: Sisu
+    - icon: fontawesome/brands/discord
+      link: http://discord.com

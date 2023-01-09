@@ -1,7 +1,9 @@
+# Framework and libraries
 flask
 python-dotenv
 
 # Git hooks
 pre-commit
 
+# More production-ready web server
 #gunicorn

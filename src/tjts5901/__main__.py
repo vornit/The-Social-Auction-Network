@@ -1,10 +1,10 @@
 """
-Main entry point for the application.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-This file is used to run the application in development mode.
+Module entry point.
 
-To run the application in development mode, run the following command:
+Note: This file is only used when running the application directly. When app started
+from Flask or gunicorn, this file is skipped.
 
+To run the application module using this file, run the following command:
     python -m tjts5901
 
 """

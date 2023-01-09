@@ -20,11 +20,12 @@ cache:
 variables:
   ## Name for the generated image. Change this if you wish, but watch out
   ## for special characters!
-  DOCKER_IMAGE_NAME: tjts5901
+  IMAGE_NAME: tjts5901
 
   ## (Optional) More verbose output from pipeline
   #CI_DEBUG_TRACE: "true"
 
+  # shared volume for docker-in-docker
   DOCKER_TLS_CERTDIR: "/certs"
 
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
@@ -35,7 +36,7 @@ build:
   script:
     ## Build a new image, pulling the latest base, and tag it.
     ## If --pull is ommited, base from local is used.
-    - docker build --pull -t $DOCKER_IMAGE_NAME .
+    - docker build --pull -t $IMAGE_NAME .
 
 ## Build course documentation. You might not need this stage.
 pages:
@@ -44,11 +45,11 @@ pages:
   ## Use build from previous stage as base image.
   dependencies:
     - build
-  image: $DOCKER_IMAGE_NAME
+  image: $IMAGE_NAME
 
   script:
     ## Install `mkdocs` and generate HTML documentation.
-    - pip install --disable-pip-version-check -r docs/requirements.txt
+    - pip install .[docs]
     - mkdocs build -f docs/mkdocs.yml
   artifacts:
     ## Artifacts are sent to gitlab, and accessible from there.
@@ -71,10 +72,10 @@ push-image:
 
   before_script:
     ## Make some checks that Docker credentials are configured.
-    - test -z "$DOCKER_REGISTRY" && (echo "Missing required variable DOCKER_REGISTRY. See 'Pipeline setup.md'"; exit 1)
-    - test -z "$DOCKER_AUTH_CONFIG" && (echo "Missing required variable DOCKER_AUTH_CONFIG. See 'Pipeline setup.md'"; exit 1)
+    - test -z "${DOCKER_REGISTRY}" && (echo "Missing required variable DOCKER_REGISTRY. See 'Pipeline setup.md'"; exit 1)
+    - test -z "${DOCKER_AUTH_CONFIG}" && (echo "Missing required variable DOCKER_AUTH_CONFIG. See 'Pipeline setup.md'"; exit 1)
 
   script:
     ## Tag the build image for registry, and push it.
-    - docker tag "$DOCKER_IMAGE_NAME" "$DOCKER_REGISTRY:$DOCKER_IMAGE_NAME"
-    - docker push "$DOCKER_REGISTRY:$DOCKER_IMAGE_NAME"
+    - docker tag "${IMAGE_NAME}" "${DOCKER_REGISTRY}:${IMAGE_NAME}"
+    - docker push "${DOCKER_REGISTRY}:${IMAGE_NAME}"

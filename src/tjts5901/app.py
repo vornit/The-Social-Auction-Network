@@ -1,4 +1,4 @@
-#from importlib.metadata import version
+from importlib.metadata import version
 from os import environ
 
 from dotenv import load_dotenv
@@ -16,9 +16,9 @@ def create_app(name=__name__) -> Flask:
 
     :param name: The name of the application.
     """
-    _app = Flask(name)
+    new_app = Flask(name)
 
-    return _app
+    return new_app
 
 
 def get_version() -> str:
@@ -34,8 +34,7 @@ def get_version() -> str:
 
     if ver is None:
         # Get the version from the package.
-        #ver = version(__name__)
-        ver = "dev"
+        ver = version(__name__)
 
     return str(ver)
 

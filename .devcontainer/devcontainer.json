@@ -2,34 +2,50 @@
 // https://github.com/microsoft/vscode-dev-containers/tree/v0.245.0/containers/python-3
 {
 	"name": "TJTS5901 Dev Environment",
-	"build": {
-		"dockerfile": "../Dockerfile",
-		"context": "..",
-		"args": {
-			// Options
-			"NODE_VERSION": "lts/*",
-			// Setup the port for Flask. We'll use 5001 to avoid conflicts on Macs.
-			"PORT": "5001",
-			"PYTHON_PATH": "/usr/local"
-		}
-	},
+	// Use docker-compose to setup the container
+	// https://code.visualstudio.com/docs/containers/docker-compose
+	"dockerComposeFile": "../docker-compose.yml",
+	"service": "tjts5901-dev",
+
+	// Don't start flask app by default.
+	"overrideCommand": true,
+
+	// Alternatively, use `Dockerfile` to build the image.
+	// "build": {
+	// 	"dockerfile": "../Dockerfile",
+	// 	"context": "..",
+	// 	"args": {
+	// 		// Options
+	// 		// Setup the port for Flask. We'll use 5001 to avoid conflicts on Macs.
+	// 		"FLASK_RUN_PORT": "5001",
+	// 		"FLASK_APP": "tjts5901.app"
+	// 	}
+	// },
 
 	// Use /app -folder as a workspace folder. Otherwise it will depend on repository name.
-	"workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind,consistency=cached",
+	//"workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind,consistency=cached",
 	"workspaceFolder": "/app",
 
 	"mounts": [
 		// Setup mountpoints for accessing secrets and services in host machine
 		// Docker-from-Docker, see https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/docs/docker.md
 		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
-		// Kubernetes, see https://github.com/Microsoft/vscode-dev-containers/tree/main/containers/kubernetes-helm
+		// Kubernetes sync, see https://github.com/Microsoft/vscode-dev-containers/tree/main/containers/kubernetes-helm
 		"source=${env:HOME}${env:USERPROFILE}/.kube,target=/usr/local/share/kube-localhost,type=bind",
 		"source=${env:HOME}${env:USERPROFILE}/.minikube,target=/usr/local/share/minikube-localhost,type=bind",
 		// Static volume for vscode extensions
 		"source=tjts5901-vscode-extensions,target=/home/vscode/.vscode-server/extensions,type=volume"
+		// If you wish to maintain history between rebuilds, setup vscode home folder as a volume
+		//"source=tjts5901-vscode-home,target=/home/vscode,type=volume"
 	],
 	"remoteEnv": {
+		// If you do not want to sync your host .kube folder with the devcontainer, set this to false.
+		// https://github.com/Microsoft/vscode-dev-containers/tree/main/containers/kubernetes-helm
 		"SYNC_LOCALHOST_KUBECONFIG": "true",
+		// Setup flask debug mode to be on in devcontainer
+		"FLASK_DEBUG": "1",
+		// Pass in the host directory for Docker mount commands from inside the container
+		//"HOST_PROJECT_PATH": "${localWorkspaceFolder}"
 	},
 	// Configure tool-specific properties.
 	"customizations": {
@@ -49,6 +65,12 @@
 				"python.linting.pycodestylePath": "/usr/local/py-utils/bin/pycodestyle",
 				"python.linting.pydocstylePath": "/usr/local/py-utils/bin/pydocstyle",
 				"python.linting.pylintPath": "/usr/local/py-utils/bin/pylint",
+				"python.unitTest.pyTestEnabled": true,
+				"python.unitTest.pyTestArgs": [
+					"--exitfirst",
+					"--verbose",
+					"--color=auto"
+				],
 				"[python]": {
 					"editor.rulers": [120]
 				},
@@ -58,7 +80,6 @@
 
 			// Add the IDs of extensions you want installed when the container is created.
 			"extensions": [
-				"ms-python.python",
 				"ms-python.vscode-pylance",
 				"ms-azuretools.vscode-docker",
 				"ms-kubernetes-tools.vscode-aks-tools",
@@ -68,18 +89,21 @@
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [ 5001 ],
+	// "forwardPorts": [ 5001 ],
 
-	// Use 'postCreateCommand' to run commands after the container is created, and install
-	// Additional packages used for development.
-	// "postCreateCommand": "pip install -r requirements-dev.txt",
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// Here we install kube sync support
+	"postCreateCommand": "echo \"source $PWD/.devcontainer/copy-kube-config.sh\" | tee -a $HOME/.bashrc $HOME/.zshrc >> /dev/null",
 
 	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode",
 
 	"features": {
 		"docker-from-docker": "latest",
-		"kubectl-helm-minikube": "1.23",
+		"kubectl-helm-minikube": {
+			"version": "1.24",
+			"minikube": "none",
+		},
 		// "terraform": "latest",
 		"azure-cli": "latest"
 	}

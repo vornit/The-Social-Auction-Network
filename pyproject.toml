@@ -1,0 +1,49 @@
+# Package setup for tjts5901
+# ==========================
+
+# This file is used to install the package and its dependencies.
+# Using this file, you can install the package using the following command:
+#     pip install -e .
+
+# Note: The -e flag is used to install the package in editable mode. This means that
+# any changes made to the source code will be reflected in the installed package.
+
+# For more information on how to use this file, see the following documentation:
+#     https://packaging.python.org/tutorials/packaging-projects/
+#     https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+
+[project]
+name = "tjts5901"
+description = "TJTS5901 Course work assigment"
+authors = [
+  { name="University of Jyväskylä" },
+  # { name="Team Member", email="team.member@student.jyu.fi" }
+]
+
+# Version is detected from git, and dependencies from older style "requirements.txt" file.
+dynamic = ["version", "dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[project.optional-dependencies]
+test = [
+  "pytest",
+]
+docs = [
+  "mkdocs",
+  "mkdocs-material",
+  "mkdocs-git-revision-date-localized-plugin",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "setuptools_scm[toml]>=5"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+# Empty segment required to activate scm
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
