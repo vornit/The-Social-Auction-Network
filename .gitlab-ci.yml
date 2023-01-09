@@ -4,7 +4,7 @@ image: docker:stable
 services:
   ## Allow building docker images inside of docker. Notice that it's different
   ## from Docker-from-Docker. https://docs.gitlab.com/ee/ci/docker/using_docker_build.html
-  - docker:18.09.7-dind
+  - docker:20.10.16-dind
 
 stages:
   - build
@@ -29,7 +29,7 @@ variables:
   # the daemon started inside of the service. The daemon is available
   # with a network connection instead of the default
   # /var/run/docker.sock socket.
-  DOCKER_HOST: tcp://127.0.0.1:2376
+  DOCKER_HOST: tcp://docker:2376
 
   # shared volume for docker-in-docker
   DOCKER_TLS_CERTDIR: "/certs"
@@ -45,6 +45,7 @@ build:
     ## Make some checks that Docker credentials are configured.
     - test -z "${DOCKER_REGISTRY}" && (echo "Missing required variable DOCKER_REGISTRY. See 'Pipeline setup.md'"; exit 1)
     - test -z "${DOCKER_AUTH_CONFIG}" && (echo "Missing required variable DOCKER_AUTH_CONFIG. See 'Pipeline setup.md'"; exit 1)
+    - docker info
 
   script:
     ## Build a new image, pulling the latest base, and tag it.
