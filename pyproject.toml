@@ -15,13 +15,14 @@
 [project]
 name = "tjts5901"
 description = "TJTS5901 Course work assigment"
+version = "0.0.1"
 authors = [
   { name="University of Jyväskylä" },
   # { name="Team Member", email="team.member@student.jyu.fi" }
 ]
 
 # Version is detected from git, and dependencies from older style "requirements.txt" file.
-dynamic = ["version", "dependencies"]
+dynamic = ["dependencies"]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
@@ -37,7 +38,7 @@ docs = [
 ]
 
 [build-system]
-requires = ["setuptools>=61.0", "setuptools_scm[toml]>=5"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools_scm]

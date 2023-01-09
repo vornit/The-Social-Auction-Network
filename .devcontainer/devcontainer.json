@@ -5,7 +5,7 @@
 	// Use docker-compose to setup the container
 	// https://code.visualstudio.com/docs/containers/docker-compose
 	"dockerComposeFile": "../docker-compose.yml",
-	"service": "tjts5901-dev",
+	"service": "tjts5901",
 
 	// Don't start flask app by default.
 	"overrideCommand": true,
@@ -27,6 +27,8 @@
 	"workspaceFolder": "/app",
 
 	"mounts": [
+		// Mount the local folder into the container
+		"source=${localWorkspaceFolder},target=/app,type=bind,consistency=cached",
 		// Setup mountpoints for accessing secrets and services in host machine
 		// Docker-from-Docker, see https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/docs/docker.md
 		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
