@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tjts5901-service
+spec:
+  selector:
+    app: tjts5901-app
+  ports:
+  - protocol: "TCP"
+    port: 80
+    targetPort: 5001
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tjts5901-app
+spec:
+  selector:
+    matchLabels:
+      app: tjts5901-app
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: tjts5901-app
+    spec:
+      containers:
+      - name: tjts5901-app
+        image: tjts5901k23.azurecr.io/tjts5901
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5001

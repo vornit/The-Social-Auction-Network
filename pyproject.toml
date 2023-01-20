@@ -20,8 +20,6 @@ authors = [
   { name="University of Jyväskylä" },
   # { name="Team Member", email="team.member@student.jyu.fi" }
 ]
-
-# Version is detected from git, and dependencies from older style "requirements.txt" file.
 dynamic = ["dependencies"]
 
 [tool.setuptools.dynamic]
@@ -40,9 +38,6 @@ docs = [
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
-
-[tool.setuptools_scm]
-# Empty segment required to activate scm
 
 [tool.pytest.ini_options]
 testpaths = [

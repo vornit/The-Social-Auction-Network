@@ -1,27 +1,11 @@
 {
 	"version": "2.0.0",
 	"tasks": [
-		{
-			"type": "docker-build",
-			"label": "Docker Build",
-			"platform": "python",
-			"dockerBuild": {
-				"tag": "tjts5901:latest",
-				"dockerfile": "${workspaceFolder}/Dockerfile",
-				"context": "${workspaceFolder}",
-				"pull": true
-			},
-			"problemMatcher": [],
-			"group": {
-				"kind": "build",
-				"isDefault": true
+			{
+				"label": "Build Documentation",
+				"type": "shell",
+				"command": "pip install .[docs] && mkdocs build -f docs/mkdocs.yml",
+				"problemMatcher": []
 			}
-		},
-		{
-			"label": "Build Documentation",
-			"type": "shell",
-			"command": "pip install .[docs] && mkdocs build -f docs/mkdocs.yml",
-			"problemMatcher": []
-		}
 	]
 }

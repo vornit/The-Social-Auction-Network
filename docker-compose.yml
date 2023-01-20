@@ -1,7 +1,7 @@
 # Defines the application's Docker image and additional services
 # https://docs.docker.com/compose/compose-file/
 # To run using docker-compose, use the command:
-#   docker-compose up --build tjt5901-app
+#   docker-compose up --build tjts5901
 
 version: '3'
 services:
@@ -10,30 +10,34 @@ services:
       context: .
       dockerfile: Dockerfile
 
-    # Ports to expose to the host.
-    ports:
-      - 5001:5001
+    working_dir: /app
+
+    # Ports to expose to the host. Uncomment if running outside of vscode.
+    # ports:
+      # - 5001:5001
 
     # Volumes to mount from the host.
-    #volumes:
-      #- .:/app:cached
-      # Include system timezone information, so container doesn't use UTC
-      #- /etc/timezone:/etc/timezone:ro
-      #- /etc/localtime:/etc/localtime:ro
+    volumes:
+      # Mount local source folder into container
+      - .:/app
+      # Add volume for vscode extensions
+      - tjts5901-vscode-extensions:/home/vscode/.vscode-server/extensions
+      # mountpoints for kubernetes syncing.
+      - ${HOME}/.kube:/usr/local/share/kube-localhost:cached
+      - ${HOME}/.minikube:/usr/local/share/minikube-localhost:cached
 
     environment:
-      #- FLASK_APP=tjt5901:app
-      #- FLASK_DEBUG=1
-      - FLASK_RUN_PORT=5001
+      #FLASK_APP: tjt5901:app
+      FLASK_DEBUG: 1
+      #FLASK_RUN_PORT: 5001
 
     ## Don't restart container if it exits. Useful for debugging, not for production.
     restart: 'no'
-
-    ## Override the default command.
-    #command: /bin/sh -c "sleep inf"
-
 
   # Example for another service, such as a database.
   # mongodb:
   #   image: mongo:stable
   #   restart: unless-stopped
+
+volumes:
+  tjts5901-vscode-extensions:

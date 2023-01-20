@@ -4,42 +4,18 @@
 	"name": "TJTS5901 Dev Environment",
 	// Use docker-compose to setup the container
 	// https://code.visualstudio.com/docs/containers/docker-compose
-	"dockerComposeFile": "../docker-compose.yml",
+	"dockerComposeFile": [
+		"../docker-compose.yml"
+	],
+
 	"service": "tjts5901",
 
 	// Don't start flask app by default.
 	"overrideCommand": true,
 
-	// Alternatively, use `Dockerfile` to build the image.
-	// "build": {
-	// 	"dockerfile": "../Dockerfile",
-	// 	"context": "..",
-	// 	"args": {
-	// 		// Options
-	// 		// Setup the port for Flask. We'll use 5001 to avoid conflicts on Macs.
-	// 		"FLASK_RUN_PORT": "5001",
-	// 		"FLASK_APP": "tjts5901.app"
-	// 	}
-	// },
-
 	// Use /app -folder as a workspace folder. Otherwise it will depend on repository name.
-	//"workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind,consistency=cached",
 	"workspaceFolder": "/app",
 
-	"mounts": [
-		// Mount the local folder into the container
-		"source=${localWorkspaceFolder},target=/app,type=bind,consistency=cached",
-		// Setup mountpoints for accessing secrets and services in host machine
-		// Docker-from-Docker, see https://github.com/microsoft/vscode-dev-containers/blob/main/script-library/docs/docker.md
-		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
-		// Kubernetes sync, see https://github.com/Microsoft/vscode-dev-containers/tree/main/containers/kubernetes-helm
-		"source=${env:HOME}${env:USERPROFILE}/.kube,target=/usr/local/share/kube-localhost,type=bind",
-		"source=${env:HOME}${env:USERPROFILE}/.minikube,target=/usr/local/share/minikube-localhost,type=bind",
-		// Static volume for vscode extensions
-		"source=tjts5901-vscode-extensions,target=/home/vscode/.vscode-server/extensions,type=volume"
-		// If you wish to maintain history between rebuilds, setup vscode home folder as a volume
-		//"source=tjts5901-vscode-home,target=/home/vscode,type=volume"
-	],
 	"remoteEnv": {
 		// If you do not want to sync your host .kube folder with the devcontainer, set this to false.
 		// https://github.com/Microsoft/vscode-dev-containers/tree/main/containers/kubernetes-helm
@@ -78,24 +54,29 @@
 				},
 				// Enable the terminal to be used as the default shell.
 				"terminal.integrated.shellIntegration.enabled": true,
+				"gitlab.showPipelineUpdateNotifications": true
 			},
 
 			// Add the IDs of extensions you want installed when the container is created.
 			"extensions": [
-				"ms-python.vscode-pylance",
+				"ms-python.python",
 				"ms-azuretools.vscode-docker",
-				"ms-kubernetes-tools.vscode-aks-tools",
-				"redhat.vscode-yaml"
+				"redhat.vscode-yaml",
+				"GitLab.gitlab-workflow",
+				"samuelcolvin.jinjahtml"
 			]
 		}
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [ 5001 ],
+	"forwardPorts": [ 5001 ],
+
+	// Uncomment the next line if you want start specific services in your Docker Compose config.
+	// "runServices": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// Here we install kube sync support
-	"postCreateCommand": "echo \"source $PWD/.devcontainer/copy-kube-config.sh\" | tee -a $HOME/.bashrc $HOME/.zshrc >> /dev/null",
+	"postCreateCommand": "/bin/sh .devcontainer/post-create.sh",
 
 	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode",
@@ -107,6 +88,7 @@
 			"minikube": "none",
 		},
 		// "terraform": "latest",
-		"azure-cli": "latest"
+		"azure-cli": {
+			"version": "lts"
 	}
 }

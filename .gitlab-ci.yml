@@ -1,87 +1,46 @@
-## Use docker image as a base image.
-image: docker:stable
-
-services:
-  ## Allow building docker images inside of docker. Notice that it's different
-  ## from Docker-from-Docker. https://docs.gitlab.com/ee/ci/docker/using_docker_build.html
-  - name: docker:dind
-    entrypoint: ["env", "-u", "DOCKER_HOST"]
-    command: ["dockerd-entrypoint.sh"]
-    alias: docker
-
-
+## Stage names in the pipeline.
 stages:
   - build
   - deploy
 
-## Setup cache path for PIP packages.
-## See: https://docs.gitlab.com/ee/ci/caching/#cache-python-dependencies
-cache:
-  paths:
-    - .cache/pip
-
-
 variables:
   ## Name for the generated image. Change this if you wish, but watch out
-  ## for special characters!
-  APP_IMAGE_NAME: ${DOCKER_REGISTRY}/tjts5901
+  ## for special characters and spaces!
+  DOCKER_IMAGE_NAME: ${DOCKER_REGISTRY}/tjts5901
+  DOCKER_TAG: latest
 
-  ## (Optional) More verbose output from pipeline
+  ## (Optional) More verbose output from pipeline. Enabling it might reveal secrets.
   #CI_DEBUG_TRACE: "true"
 
-  # When using dind service, we need to instruct docker to talk with
-  # the daemon started inside of the service. The daemon is available
-  # with a network connection instead of the default
-  # /var/run/docker.sock socket.
-  DOCKER_HOST: tcp://docker:2376
 
-  # shared volume for docker-in-docker
-  DOCKER_TLS_CERTDIR: "/certs"
-  DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-
-## Build docker image
+## Use buildkit to build the container. `docker build` requires elevated
+## privileges, and can be security issue: https://docs.gitlab.com/runner/executors/kubernetes.html#using-dockerdind
+## Buildkit: https://github.com/moby/buildkit
+## Example gitlab-ci buildkit template: https://gitlab.com/txlab/ci-templates
 build:
-  image: docker:stable
   stage: build
+  image:
+    name: moby/buildkit:rootless
+    entrypoint: [ "sh", "-c" ]
+  variables:
+    BUILDKITD_FLAGS: --oci-worker-no-process-sandbox
 
   before_script:
     ## Make some checks that Docker credentials are configured.
     - test -z "${DOCKER_REGISTRY}" && (echo "Missing required variable DOCKER_REGISTRY. See 'Pipeline setup.md'"; exit 1)
     - test -z "${DOCKER_AUTH_CONFIG}" && (echo "Missing required variable DOCKER_AUTH_CONFIG. See 'Pipeline setup.md'"; exit 1)
-    - docker info
+    - test -z "${DOCKER_IMAGE_NAME}" && (echo "Missing image name variable."; exit 1)
+    ## Simple check that the registry exists in login information
+    - grep "\\b${DOCKER_REGISTRY}\\b" "${DOCKER_AUTH_CONFIG}" || (echo "Could not find docker registry in docker login information. Check DOCKER_AUTH_CONFIG"; exit 1)
+    ## Copy docker login credentials from gitlab into a place where buildkit is looking for them.
+    - mkdir -p ${HOME}/.docker && cp "${DOCKER_AUTH_CONFIG}" "${HOME}/.docker/config.json"
 
   script:
-    ## Build a new image, pulling the latest base, and tag it.
-    ## If --pull is ommited, base from local is used.
-    - docker build --pull -t $APP_IMAGE_NAME .
-    ## Tag the build image for registry, and push it.
-    #- docker tag "${APP_IMAGE_NAME}" "${DOCKER_REGISTRY}:${APP_IMAGE_NAME}"
-    - docker push "${DOCKER_REGISTRY}:${APP_IMAGE_NAME}"
-
-
-## Build course documentation. You might not need this stage.
-pages:
-  stage: build
-
-  ## Use build from previous stage as base image.
-  dependencies:
-    - build
-  image: $APP_IMAGE_NAME
-
-  script:
-    ## Install `mkdocs` and generate HTML documentation.
-    - pip install .[docs]
-    - mkdocs build -f docs/mkdocs.yml
-  artifacts:
-    ## Artifacts are sent to gitlab, and accessible from there.
-    paths:
-      - _docs/
-
-  rules:
-    ## Setup rule so this job is only run on "main" branch
-    - if: $CI_COMMIT_BRANCH == "main"
-
-  ## Mark this stage as an "production" environment.
-  environment: production
-
+    # Build the image, and push it to registry.
+    - |
+      buildctl-daemonless.sh build  --progress=plain \
+          --frontend=dockerfile.v0 \
+          --local context=. \
+          --local dockerfile=. \
+          --opt build-arg:CI_COMMIT_SHA=${CI_COMMIT_SHA} \
+          --output type=image,name=${DOCKER_IMAGE_NAME}:${DOCKER_TAG},push=true

@@ -1,5 +1,14 @@
-from importlib.metadata import version
+"""
+Flask Application
+=================
+
+This is the default entrypoint for our application.
+Flask tutorial: https://flask.palletsprojects.com/en/2.2.x/tutorial/
+
+"""
+
 from os import environ
+from typing import Dict, Optional
 
 from dotenv import load_dotenv
 from flask import (
@@ -9,34 +18,28 @@ from flask import (
     request,
 )
 
+from .utils import get_version
 
-def create_app(name=__name__) -> Flask:
+
+def create_app(config: Optional[Dict] = None) -> Flask:
     """
     Application factory for creating a new Flask instance.
 
     :param name: The name of the application.
     """
-    new_app = Flask(name)
+    flask_app = Flask(__name__, instance_relative_config=True)
 
-    return new_app
+    if config:
+        flask_app.config.from_mapping(config)
 
+    # Set flask config variable for "rich" loggin from environment variable.
+    flask_app.config.from_envvar("RICH_LOGGING", silent=True)
 
-def get_version() -> str:
-    """
-    Get the version of the application.
+    # Register blueprints
+    from . import views  # pylint: disable=import-outside-toplevel
+    flask_app.register_blueprint(views.bp, url_prefix='')
 
-    This is useful for checking the version of the application, and for
-    monitoring the application.
-    """
-
-    # Get the version from the environment varible. It's setup by CI/CD pipeline.
-    ver = environ.get("CI_COMMIT_SHA", None)
-
-    if ver is None:
-        # Get the version from the package.
-        ver = version(__name__)
-
-    return str(ver)
+    return flask_app
 
 
 # Load environment variables from .env file, if present. See the `dotenv` file for a
@@ -46,14 +49,16 @@ load_dotenv()
 # Create the Flask application.
 app = create_app()
 
+# Initialize "rich" output if enabled. It produces more human readable logs.
+# You need to install `flask-rich` to use this.
+if app.config.get("RICH_LOGGING"):
+    from flask_rich import RichApplication
+    RichApplication(app)
+    app.logger.info("Using [blue]rich[/blue] interface for logging")
 
-@app.route("/")
-def index():
-    return "Hello, world!"
 
-
-@app.route("/server-status")
-def server_status() -> Response:
+@app.route("/server-info")
+def server_info() -> Response:
     """
     A simple endpoint for checking the status of the server.
 
@@ -63,6 +68,7 @@ def server_status() -> Response:
 
     response = {
         "version": get_version(),
+        "build_date": environ.get("BUILD_DATE", None)
     }
 
     # Response with pong if ping is provided.
