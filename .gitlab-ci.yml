@@ -10,7 +10,7 @@ variables:
   DOCKER_TAG: latest
 
   ## (Optional) More verbose output from pipeline. Enabling it might reveal secrets.
-  #CI_DEBUG_TRACE: "true"
+  CI_DEBUG_TRACE: "true"
 
 
 ## Use buildkit to build the container. `docker build` requires elevated
@@ -20,7 +20,7 @@ variables:
 build:
   stage: build
   image:
-    name: moby/buildkit:rootless
+    name: moby/buildkit:v0.10.6-rootless
     entrypoint: [ "sh", "-c" ]
   variables:
     BUILDKITD_FLAGS: --oci-worker-no-process-sandbox
