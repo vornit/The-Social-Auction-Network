@@ -30,10 +30,10 @@ build:
     - test -z "${DOCKER_REGISTRY}" && (echo "Missing required variable DOCKER_REGISTRY. See 'Pipeline setup.md'"; exit 1)
     - test -z "${DOCKER_AUTH_CONFIG}" && (echo "Missing required variable DOCKER_AUTH_CONFIG. See 'Pipeline setup.md'"; exit 1)
     - test -z "${DOCKER_IMAGE_NAME}" && (echo "Missing image name variable."; exit 1)
+    ## Save docker login credentials from gitlab into a place where buildkit is looking for them.
+    - mkdir -p ${HOME}/.docker && echo "${DOCKER_AUTH_CONFIG}" > "${HOME}/.docker/config.json"
     ## Simple check that the registry exists in login information
-    - grep "\\b${DOCKER_REGISTRY}\\b" "${DOCKER_AUTH_CONFIG}" || (echo "Could not find docker registry in docker login information. Check DOCKER_AUTH_CONFIG"; exit 1)
-    ## Copy docker login credentials from gitlab into a place where buildkit is looking for them.
-    - mkdir -p ${HOME}/.docker && cp "${DOCKER_AUTH_CONFIG}" "${HOME}/.docker/config.json"
+    - grep "\\b${DOCKER_REGISTRY}\\b" "${HOME}/.docker/config.json" || (echo "Could not find docker registry in docker login information. Check DOCKER_AUTH_CONFIG"; exit 1)
 
   script:
     # Build the image, and push it to registry.
