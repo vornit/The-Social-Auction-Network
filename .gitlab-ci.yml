@@ -1,7 +1,6 @@
 ## Stage names in the pipeline.
 stages:
   - build
-  - deploy
 
 variables:
   ## Name for the generated image. Change this if you wish, but watch out
@@ -10,7 +9,7 @@ variables:
   DOCKER_TAG: latest
 
   ## (Optional) More verbose output from pipeline. Enabling it might reveal secrets.
-  CI_DEBUG_TRACE: "true"
+  #CI_DEBUG_TRACE: "true"
 
 
 ## Use buildkit to build the container. `docker build` requires elevated
@@ -19,6 +18,7 @@ variables:
 ## Example gitlab-ci buildkit template: https://gitlab.com/txlab/ci-templates
 build:
   stage: build
+  environment: production
   image:
     name: moby/buildkit:v0.10.6-rootless
     entrypoint: [ "sh", "-c" ]
