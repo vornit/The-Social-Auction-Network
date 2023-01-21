@@ -12,8 +12,7 @@ variables:
   #CI_DEBUG_TRACE: "true"
 
 
-## Use buildkit to build the container. `docker build` requires elevated
-## privileges, and can be security issue: https://docs.gitlab.com/runner/executors/kubernetes.html#using-dockerdind
+## Use buildkit to build the container.
 ## Buildkit: https://github.com/moby/buildkit
 ## Example gitlab-ci buildkit template: https://gitlab.com/txlab/ci-templates
 build:
