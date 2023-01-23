@@ -69,7 +69,7 @@
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	"forwardPorts": [ 5001 ],
+	// "forwardPorts": [ 5001 ],
 
 	// Uncomment the next line if you want start specific services in your Docker Compose config.
 	// "runServices": [],
@@ -90,5 +90,6 @@
 		// "terraform": "latest",
 		"azure-cli": {
 			"version": "lts"
+		}
 	}
 }

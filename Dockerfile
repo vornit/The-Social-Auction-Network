@@ -31,7 +31,7 @@ ENV FLASK_RUN_PORT=${FLASK_RUN_PORT}
 ## Run Flask app when container started, and listen all the interfaces
 ## Note: CMD doesn't run command in build, but defines an starting command
 ## when container is started (or arguments for ENTRYPOINT).
-CMD flask run --host=0.0.0.0 # --port=${FLASK_RUN_PORT} --app=${FLASK_APP}}
+CMD flask run --host=0.0.0.0 # --port=${FLASK_RUN_PORT} --app=${FLASK_APP}
 
 ## Examples for other commands:
 ## Run nothing, so that the container can be used as a base image
