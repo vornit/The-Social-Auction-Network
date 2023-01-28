@@ -5,6 +5,9 @@ Created gitlab.jyu.fi group, installed programs and did setup
 for local development, wrote and submited userstories to moodle and wrote 1 
 OWASP consideration.
 
+### Iiro:
+Set up the project pipeline.
+
 ## OWASP top ten week 1 considerations:
 
 ### A07:2021 – Identification and Authentication Failures
