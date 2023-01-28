@@ -11,3 +11,6 @@ OWASP consideration.
 It maybe important to consider making some sort of effort against 
 Identification and Authentication Failures, when we are making system that
 handles users money (example Auction System).
+
+### A09:2021 - Security Logging and Monitoring Failures
+All logins and login attempts should be logged to make it easier to investigate possible malicious login attempts.
