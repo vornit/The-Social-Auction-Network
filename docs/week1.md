@@ -8,6 +8,9 @@ OWASP consideration.
 ### Iiro:
 Set up the project pipeline.
 
+### Pertti:
+Set up the local development environment and wrote one OWASP consideration.
+
 ## OWASP top ten week 1 considerations:
 
 ### A07:2021 – Identification and Authentication Failures
