@@ -6,11 +6,21 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{title}}</title>
+    <title>Auction</title>
   </head>
   <body>
-    <h1>Hello, world!!!!</h1>
-    <p>Just testing the pipeline</p>
-    <p>Another test</p>
+
+  <h1>Add new item (not saving anything yet):</h1>
+  <form id="add-item" action="/" method="POST"> <!--not sure if needed: accept-charset="utf-8"-->
+  <input type="hidden" value="{{laskuri}}" name="laskuri" />
+  <p><label>User <input type="text" name="user" /></label></p>
+  <p><label>Item <input type="text" name="item" /></label></p>
+  <p><label>Price <input type="text" name="price" /></label> €</p>
+  <p><input type="submit" name="painike" value="Add item"/></p>
+  </form>
+
+  <!--<p>{{added_items}}-->
+  <p>User: {{user}}, Item: {{item}}, Price: {{price}}</p>
+
   </body>
 </html>
