@@ -32,8 +32,11 @@ def index() -> str:
     try:
         file = open("items.txt", "r")
         items = file.read().split("\n")
+        items2 = []
+        for i in items:
+            items2.append(i.split(','))
     except:
         items = ""
 
-    html = render_template("index.html.j2", user=user, item=item, price=price, items=items)
+    html = render_template("index.html.j2", items2=items2)
     return html

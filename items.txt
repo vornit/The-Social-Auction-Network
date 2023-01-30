@@ -1,3 +1,2 @@
-
-pertti, rolex, 15000€
+teppo, rolex, 15000€
 matti, bicycle, 50€

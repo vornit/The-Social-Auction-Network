@@ -8,6 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Auction</title>
   </head>
+<style>
+  table, th, td {
+    border:1px solid black;
+}
+</style>
   <body>
 
   <h3>Add new item:</h3>
@@ -20,9 +25,20 @@
   </form>
 
   <h3>Items for sale:</h3>
-  {% for i in range(items | length) %}
-    <p>{{items[i]}}</p>
-  {% endfor %}
 
+  <table style="width:30%">
+  <tr>
+    <th>Seller</th>
+    <th>Item</th>
+    <th>Price</th>
+  </tr>
+  {% for i in range(items2 | length) %}
+  <tr>
+    <td>{{items2[i][0]}}</td>
+    <td>{{items2[i][1]}}</td>
+    <td>{{items2[i][2]}}</td>
+  </tr>
+  {% endfor %}
+  </table>
   </body>
 </html>
