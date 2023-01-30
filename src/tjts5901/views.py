@@ -21,5 +21,19 @@ def index() -> str:
     item = request.values.get("item")
     price = request.values.get("price")
 
-    html = render_template("index.html.j2", user=user, item=item, price=price)
+    try:
+        if (user != "" and item != "" and price != ""):
+            file = open("items.txt", "a")
+            file.write("\n" + user + ", " + item + ", " + price + "€")
+            file.close()
+    except:
+        pass
+
+    try:
+        file = open("items.txt", "r")
+        items = file.read().split("\n")
+    except:
+        items = ""
+
+    html = render_template("index.html.j2", user=user, item=item, price=price, items=items)
     return html

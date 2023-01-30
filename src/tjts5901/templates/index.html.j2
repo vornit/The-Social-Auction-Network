@@ -10,7 +10,7 @@
   </head>
   <body>
 
-  <h1>Add new item (not saving anything yet):</h1>
+  <h3>Add new item:</h3>
   <form id="add-item" action="/" method="POST"> <!--not sure if needed: accept-charset="utf-8"-->
   <input type="hidden" value="{{laskuri}}" name="laskuri" />
   <p><label>User <input type="text" name="user" /></label></p>
@@ -19,8 +19,10 @@
   <p><input type="submit" name="painike" value="Add item"/></p>
   </form>
 
-  <!--<p>{{added_items}}-->
-  <p>User: {{user}}, Item: {{item}}, Price: {{price}}</p>
+  <h3>Items for sale:</h3>
+  {% for i in range(items | length) %}
+    <p>{{items[i]}}</p>
+  {% endfor %}
 
   </body>
 </html>
