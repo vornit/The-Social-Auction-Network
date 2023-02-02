@@ -39,6 +39,11 @@ def create_app(config: Optional[Dict] = None) -> Flask:
     from . import views  # pylint: disable=import-outside-toplevel
     flask_app.register_blueprint(views.bp, url_prefix='')
 
+    # A simple page that says hello for testing purpose.
+    @flask_app.route('/hello')
+    def hello():
+        return 'Hello, World!'
+
     return flask_app
 
 
