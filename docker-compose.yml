@@ -5,10 +5,24 @@
 
 version: '3'
 services:
+  # Define the database service.
+  mongodb:
+    image: mongo:4.2
+    ports:
+      - 27017:27017
+    restart: unless-stopped
+    # Add persistent volume for mongodb.
+    volumes:
+      - mongodb-data:/data/db
+
+
   tjts5901:
     build:
       context: .
       dockerfile: Dockerfile
+    # Tell Docker to start mongodb before starting the app.
+    depends_on:
+      - mongodb
 
     working_dir: /app
 
@@ -34,10 +48,6 @@ services:
     ## Don't restart container if it exits. Useful for debugging, not for production.
     restart: 'no'
 
-  # Example for another service, such as a database.
-  # mongodb:
-  #   image: mongo:stable
-  #   restart: unless-stopped
-
 volumes:
   tjts5901-vscode-extensions:
+  mongodb-data:
