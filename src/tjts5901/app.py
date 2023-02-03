@@ -8,7 +8,8 @@ Flask tutorial: https://flask.palletsprojects.com/en/2.2.x/tutorial/
 """
 
 from os import environ
-from typing import Dict, Optional
+import os
+from typing import Dict, Literal, Optional
 
 from dotenv import load_dotenv
 from flask import (
@@ -19,6 +20,7 @@ from flask import (
 )
 
 from .utils import get_version
+from .db import init_db
 
 
 def create_app(config: Optional[Dict] = None) -> Flask:
@@ -29,20 +31,33 @@ def create_app(config: Optional[Dict] = None) -> Flask:
     """
     flask_app = Flask(__name__, instance_relative_config=True)
 
-    if config:
+    flask_app.config.from_mapping(
+        SECRET_KEY='dev',
+    )
+
+    # Load the instance config if it exists, when not testing
+    if config is None:
+        flask_app.config.from_pyfile('config.py', silent=True)
+    else:
         flask_app.config.from_mapping(config)
 
-    # Set flask config variable for "rich" loggin from environment variable.
-    flask_app.config.from_envvar("RICH_LOGGING", silent=True)
+    # Ensure the instance folder exists
+    try:
+        os.makedirs(flask_app.instance_path)
+    except OSError:
+        pass
+
+    # Initialize the database connection.
+    init_db(flask_app)
+
+    # A simple page that says hello for testing purpose
+    @flask_app.route('/hello')
+    def hello():
+        return 'Hello, World!'
 
     # Register blueprints
     from . import views  # pylint: disable=import-outside-toplevel
     flask_app.register_blueprint(views.bp, url_prefix='')
-
-    # A simple page that says hello for testing purpose.
-    @flask_app.route('/hello')
-    def hello():
-        return 'Hello, World!'
 
     return flask_app
 
@@ -52,17 +67,9 @@ def create_app(config: Optional[Dict] = None) -> Flask:
 load_dotenv()
 
 # Create the Flask application.
-app = create_app()
+flask_app = create_app()
 
-# Initialize "rich" output if enabled. It produces more human readable logs.
-# You need to install `flask-rich` to use this.
-if app.config.get("RICH_LOGGING"):
-    from flask_rich import RichApplication
-    RichApplication(app)
-    app.logger.info("Using [blue]rich[/blue] interface for logging")
-
-
-@app.route("/server-info")
+@flask_app.route("/server-info")
 def server_info() -> Response:
     """
     A simple endpoint for checking the status of the server.
