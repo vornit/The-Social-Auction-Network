@@ -40,3 +40,20 @@ def index() -> str:
 
     html = render_template("index.html.j2", items2=items2)
     return html
+
+@bp.route("/test2", methods=['GET', 'POST'])
+def index2() -> str:
+
+    from .models import Item, User
+
+    user = User()
+    user.save()
+
+    item = Item()
+    item.title = "Test item"
+    item.description = "This is a test item"
+    item.starting_bid = 100
+    item.seller = user
+    item.save()
+
+    return "OK"
