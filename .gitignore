@@ -163,5 +163,4 @@ cython_debug/
 .vscode/settings.json
 
 _docs/
-.env
 .DS_Store
