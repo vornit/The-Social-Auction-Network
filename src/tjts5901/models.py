@@ -15,7 +15,7 @@ class User(db.Document):
     """
 
     #email = EmailField(required=True, unique=True)
-    #"The user's email address."
+    "The user's email address."
 
     #password = StringField(required=True)
 
@@ -34,7 +34,7 @@ class Item(db.Document):
         ]}
     ]}
 
-    title = StringField(max_length=70, required=True)
+    title = StringField(min_length=1, max_length=70, required=True)
     description = StringField(max_length=1500, required=True)
 
     starting_bid = IntField(required=True, min_value=0)
