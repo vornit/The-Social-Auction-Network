@@ -50,10 +50,10 @@ def index2() -> str:
     user.save()
 
     item = Item()
-    item.title = "Test item"
+    item.title = "Test item 2"
     item.description = "This is a test item"
     item.starting_bid = 100
     item.seller = user
     item.save()
 
-    return "OK"
+    return "OK!"
