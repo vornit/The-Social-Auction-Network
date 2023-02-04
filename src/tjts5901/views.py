@@ -16,7 +16,9 @@ docs_bp = Blueprint('docs', __name__)
 
 @bp.route("/", methods=['GET', 'POST'])
 def index() -> str:
-
+    """
+    Index page
+    """
     user = request.values.get("user")
     item = request.values.get("item")
     price = request.values.get("price")
