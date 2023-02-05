@@ -48,13 +48,17 @@ def register():
                     password=generate_password_hash(password)
                 )
                 user.save()
+                flash("Registeration Successfull")
             #Throw Error if anykind of exception occurred
             except Exception as exc:
                 error = f"Error when creating user: {exc!s}"
             else:
                 return redirect(url_for("auth.login"))
 
+        print("Could not register user:", error)
         flash(error)
+
+
 
     return render_template('auth/register.html')
 
@@ -72,11 +76,11 @@ def login():
         try:
             user = User.objects.get(email=email)
         except DoesNotExist:
-            error = 'Incorrect username.'
+            error = 'Incorrect email'
 
         #Check if the password is correct
         if user is None:
-            error = 'Incorrect username.'
+            error = 'Incorrect email'
         elif not check_password_hash(user['password'], password):
             error = 'Incorrect password.'
 
@@ -85,7 +89,7 @@ def login():
             session.clear()
             session['user_id'] = str(user['id'])
             flash(f"Hello {email}, You have been logged in.")
-            return redirect(url_for('index'))
+            return redirect(url_for('views.index'))
 
         #Show flash if there was problem logging in at some point
         print("Error logging in:", error)
