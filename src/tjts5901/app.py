@@ -55,6 +55,9 @@ def create_app(config: Optional[Dict] = None) -> Flask:
     def hello():
         return 'Hello, World!'
 
+    from . import auth
+    flask_app.register_blueprint(auth.bp)
+
     # Register blueprints
     from . import views  # pylint: disable=import-outside-toplevel
     flask_app.register_blueprint(views.bp, url_prefix='')
