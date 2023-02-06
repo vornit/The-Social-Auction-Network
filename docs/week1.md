@@ -11,6 +11,9 @@ Set up the project pipeline including Azure and Gitlab runner, set up the local 
 ### Pertti:
 Set up the local development environment and wrote one OWASP consideration.
 
+### Renzo:
+Write the stakeholders analisis: buyers, sellers, operators, etc
+
 ## OWASP top ten week 1 considerations:
 
 ### A07:2021 – Identification and Authentication Failures
