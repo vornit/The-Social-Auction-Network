@@ -18,7 +18,7 @@
   <h3>Add new item:</h3>
   <form id="add-item" action="/" method="POST"> <!--not sure if needed: accept-charset="utf-8"-->
   <input type="hidden" value="{{laskuri}}" name="laskuri" />
-  <p><label>User <input type="text" name="user" /></label></p>
+  <p><label>Seller <input type="text" name="user" /></label></p>
   <p><label>Item <input type="text" name="item" /></label></p>
   <p><label>Price <input type="text" name="price" /></label> €</p>
   <p><input type="submit" name="painike" value="Add item"/></p>
@@ -39,6 +39,9 @@
     <td>{{items2[i][2]}}</td>
   </tr>
   {% endfor %}
+
+  <p>{{item_adding_text}}</p>
+
   </table>
   </body>
 </html>
