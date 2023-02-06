@@ -14,10 +14,10 @@ class User(db.Document):
     Model representing a user of the auction app.
     """
 
-    email = EmailField(required=True, unique=True)
+    email = EmailField(unique=True)
     "The user's email address."
 
-    password = StringField(required=True)
+    password = StringField()
 
     created_at = DateTimeField(required=True, default=datetime.utcnow)
 

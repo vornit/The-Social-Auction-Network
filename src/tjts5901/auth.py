@@ -23,6 +23,16 @@ def load_logged_in_user():
     else:
         g.user = User.objects.get(id=user_id)
 
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+
+        return view(**kwargs)
+
+    return wrapped_view
+
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
@@ -89,7 +99,7 @@ def login():
             session.clear()
             session['user_id'] = str(user['id'])
             flash(f"Hello {email}, You have been logged in.")
-            return redirect(url_for('views.index'))
+            return redirect(url_for('items.index'))
 
         #Show flash if there was problem logging in at some point
         print("Error logging in:", error)
