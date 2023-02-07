@@ -15,6 +15,9 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 from sentry_sdk.integrations.pymongo import PyMongoIntegration
 
 
+# Set up logger instance to get access to the logger outside of module
+logger = logging.getLogger("tjts5901")
+
 def init_logging(app: Flask):
     """
     Integrates logging interface into the application.
@@ -24,16 +27,13 @@ def init_logging(app: Flask):
 
     :param app: :class:`~Flask` The Flask application instance
     """
-    
-    # Set up logger instance to get access to the logger outside of module
-    logger = logging.getLogger("tjts5901")
 
     # If the application is in debug mode, we want to log everything including debug messages
     if app.config.get("DEBUG"):
         logger.setLevel(level=logging.DEBUG)
 
-    # Add flask's default handler to the logger. Whenever the flask logging handler is changed, this will be updated
-    # as well
+    # Add flask's default handler to the logger. Whenever the flask logging handler is changed, 
+    # this will be updated as well.
     logger.addHandler(flask_handler)
 
     logger.debug("TJTS5901 Logger initialized.")
