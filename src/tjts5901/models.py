@@ -39,6 +39,8 @@ class Item(db.Document):
 
     starting_bid = IntField(required=True, min_value=0)
 
+    leading_bid = StringField(max_length=100)
+
     seller = ReferenceField(User, required=True)
 
     created_at = DateTimeField(required=True, default=datetime.utcnow)
