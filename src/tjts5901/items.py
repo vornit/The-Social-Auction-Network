@@ -17,26 +17,32 @@ def get_item(id):
         print("Error getting item:", exc)
         abort(404)
 
-    if item.seller == g.user:
-        return item
+    #if item.seller == g.user:
+    return item
+
+
     
     abort(403)
 
-@bp.route("/")
+@bp.route("/", methods=('GET', 'POST'))
 @login_required
 def index():
 
-    #user = User()
-    #user.save()
-#
-    #item = Item()
-    #item.title = "Test item 2"
-    #item.description = "This is a test item"
-    #item.starting_bid = 100
-    #item.seller = user
-    #item.save()
+    if request.method == 'POST':
+        bid_price = request.form['bid']
+        id = request.form['itemId']
+        print(bid_price)
+        print(id)
+
+        item = get_item(id)
+
+        item.starting_bid = bid_price
+        item.leading_bid = g.user.email
+        item.save()
 
     items = Item.objects.all()
+    #items.delete()
+
     
     return render_template('items/index.html',
         items=items)
@@ -65,6 +71,7 @@ def sell():
                     description=description,
                     starting_bid = starting_bid,
                     seller = g.user,
+                    leading_bid = None,
                     closes_at = datetime.utcnow() + timedelta(days=1)
                 )
                 item.save()
@@ -86,6 +93,8 @@ def sell():
 def update(id):
 
     item = get_item(id)
+
+    print(id)
 
     if request.method == 'POST':
         title = request.form['title']
