@@ -4,6 +4,10 @@ stages:
   - test
   - deploy
 
+# Include Static Application Security Testing
+include:
+  - template: Jobs/SAST.gitlab-ci.yml
+
 variables:
   ## Name for the generated image. Change this if you wish, but watch out
   ## for special characters and spaces!
@@ -54,9 +58,6 @@ test:
       - pip install  --disable-pip-version-check -e .[test]
       - pytest -v
       - echo "Test run succesfully!"
-    # Include Static Application Security Testing
-    include:
-      - template: Jobs/SAST.gitlab-ci.yml
 
 deploy:
   stage: deploy
