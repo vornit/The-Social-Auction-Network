@@ -6,6 +6,7 @@ from flask import (
 )
 
 from werkzeug.security import check_password_hash, generate_password_hash
+from sentry_sdk import set_user
 
 from .models import User
 from mongoengine import DoesNotExist
@@ -21,8 +22,10 @@ def load_logged_in_user():
 
     if user_id is None:
         g.user = None
+        set_user(None)
     else:
         g.user = User.objects.get(id=user_id)
+        set_user({"id": str(g.user.id), "email": g.user.email})
 
 def login_required(view):
     @functools.wraps(view)
@@ -33,7 +36,6 @@ def login_required(view):
         return view(**kwargs)
 
     return wrapped_view
-
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():

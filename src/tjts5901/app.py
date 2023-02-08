@@ -21,6 +21,7 @@ from flask import (
 
 from .utils import get_version
 from .db import init_db
+from .logging import logger, init_logging
 
 
 def create_app(config: Optional[Dict] = None) -> Flask:
@@ -40,6 +41,9 @@ def create_app(config: Optional[Dict] = None) -> Flask:
         flask_app.config.from_pyfile('config.py', silent=True)
     else:
         flask_app.config.from_mapping(config)
+
+    # Initialize logging
+    init_logging(flask_app)
 
     # Ensure the instance folder exists
     try:
@@ -81,7 +85,10 @@ def server_info() -> Response:
     running correctly.
     """
 
+    database_ping: bool = False
+
     response = {
+        "database_connectable": database_ping,
         "version": get_version(),
         "build_date": environ.get("BUILD_DATE", None)
     }
