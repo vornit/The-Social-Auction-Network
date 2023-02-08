@@ -1,5 +1,6 @@
 import functools
 
+
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
@@ -14,7 +15,7 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 @bp.before_app_request
 def load_logged_in_user():
     """
-    If a user id is stored in the session, load the user object from database
+    If a user id is stored in the session, load the user from database
     """
     user_id = session.get('user_id')
 
@@ -115,3 +116,10 @@ def logout():
     session.clear()
     flash("You have been logged out.")
     return redirect(url_for('auth.login'))
+
+@bp.route('/profile')
+def profile():
+    """
+    Page for user profile (Unifinished)
+    """
+    return render_template('auth/profile.html')
