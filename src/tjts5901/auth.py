@@ -1,5 +1,6 @@
 import functools
 
+
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
@@ -15,7 +16,7 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 @bp.before_app_request
 def load_logged_in_user():
     """
-    If a user id is stored in the session, load the user object from database
+    If a user id is stored in the session, load the user from database
     """
     user_id = session.get('user_id')
 
@@ -25,6 +26,16 @@ def load_logged_in_user():
     else:
         g.user = User.objects.get(id=user_id)
         set_user({"id": str(g.user.id), "email": g.user.email})
+
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+
+        return view(**kwargs)
+
+    return wrapped_view
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
@@ -91,7 +102,7 @@ def login():
             session.clear()
             session['user_id'] = str(user['id'])
             flash(f"Hello {email}, You have been logged in.")
-            return redirect(url_for('views.index'))
+            return redirect(url_for('items.index'))
 
         #Show flash if there was problem logging in at some point
         print("Error logging in:", error)
@@ -107,3 +118,10 @@ def logout():
     session.clear()
     flash("You have been logged out.")
     return redirect(url_for('auth.login'))
+
+@bp.route('/profile')
+def profile():
+    """
+    Page for user profile (Unifinished)
+    """
+    return render_template('auth/profile.html')

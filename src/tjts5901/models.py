@@ -14,10 +14,10 @@ class User(db.Document):
     Model representing a user of the auction app.
     """
 
-    email = EmailField(required=True, unique=True)
+    email = EmailField(unique=True)
     "The user's email address."
 
-    password = StringField(required=True)
+    password = StringField()
 
     created_at = DateTimeField(required=True, default=datetime.utcnow)
 
@@ -38,6 +38,8 @@ class Item(db.Document):
     description = StringField(max_length=1500, required=True)
 
     starting_bid = IntField(required=True, min_value=0)
+
+    leading_bid = StringField(max_length=100)
 
     seller = ReferenceField(User, required=True)
 

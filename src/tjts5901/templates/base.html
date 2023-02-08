@@ -1,5 +1,10 @@
 <!doctype html>
 <head>
+<style>
+  table, th, td {
+    border:1px solid black;
+}
+</style>
 <title>{% block title %}{% endblock %} - The Social Auction Network</title>
 {# Sentry tracing for client side. See: https://docs.sentry.io/platforms/javascript/install/cdn/ #}
 {% if config['SENTRY_DSN'] %}
@@ -23,11 +28,13 @@
 </head>
 <body>
 <nav>
-  <h1>Flaskr</h1>
+  <h1>Social Auction System</h1>
   <ul>
     {% if g.user %}
       <li><span>{{ g.user['email'] }}</span>
       <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
+      <li><a href="{{ url_for('items.index') }}">Items</a>
+      <li><a href="{{ url_for('auth.profile') }}">Profile</a>
     {% else %}
       <li><a href="{{ url_for('auth.register') }}">Register</a>
       <li><a href="{{ url_for('auth.login') }}">Log In</a>

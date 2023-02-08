@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}User profile{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <p>Hello <span>{{ g.user['email'] }}</p>
+{% endblock %}
