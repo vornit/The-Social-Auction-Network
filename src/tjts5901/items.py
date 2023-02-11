@@ -4,7 +4,7 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
-from .auth import login_required
+from .auth import login_required, current_user
 from .models import Item, User
 
 bp = Blueprint('items', __name__)
@@ -17,7 +17,7 @@ def get_item(id):
         print("Error getting item:", exc)
         abort(404)
 
-    #if item.seller == g.user:
+    #if item.seller == current_user:
     return item
 
 
@@ -37,7 +37,7 @@ def index():
         item = get_item(id)
 
         item.starting_bid = bid_price
-        item.leading_bid = g.user.email
+        item.leading_bid = current_user.email
         item.save()
 
     items = Item.objects.all()
@@ -70,7 +70,7 @@ def sell():
                     title=title,
                     description=description,
                     starting_bid = starting_bid,
-                    seller = g.user,
+                    seller = current_user,
                     leading_bid = None,
                     closes_at = datetime.utcnow() + timedelta(days=1)
                 )
