@@ -15,24 +15,18 @@
     {% endif %}
   </div>
   <div class="col-sm-6 auction-section">
-    <h3>Recent Auctions</h3>
+    <h3>Your Auctions</h3>
     <div class="card-deck">
       {% for auction in items %}
-      <div class="card">
+      <div class="card" style="border:solid black 2px; width: 20%">
           <div class="card-body">
-              <h5 class="card-title">{{ auction.title }}</h5>
-              <p class="card-text">{{ auction.description }}</p>
+              <h5 class="card-title">Title: {{ auction.title }}</h5>
+              <p class="card-text">Description: {{ auction.description }}</p>
               <p class="card-text">Starting Bid: ${{ auction.starting_bid }}</p>
           </div>
           <div class="card-footer">
-              {% if auction.is_open %}
-                  {% if current_user == auction.seller %}
-                      <a href="{{ url_for('items.update', id=auction.id) }}" class="btn btn-primary">Update</a>
-                  {% else %}
-                      <a href="{{ url_for('items.bid', id=auction.id) }}" class="btn btn-primary">Place a bid</a>
-                  {% endif %}
-              {% else %}
-                  <div class="text-muted">Auction is Closed</div>
+              {% if current_user == auction.seller %}
+                  <a href="{{ url_for('items.update', id=auction.id) }}" class="btn btn-primary">Update</a>
               {% endif %}
           </div>
       </div>
