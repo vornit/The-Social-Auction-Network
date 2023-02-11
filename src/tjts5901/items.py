@@ -19,18 +19,11 @@ def get_item(id):
 
     #if item.seller == g.user:
     return item
-
-
     
     abort(403)
 
-@bp.route("/", methods=('GET', 'POST'))
-@login_required
-def index():
 
-    if request.method == 'POST':
-        bid_price = request.form['bid']
-        id = request.form['itemId']
+def bid_on_item(id, bid_price):
         print(bid_price)
         print(id)
 
@@ -39,6 +32,16 @@ def index():
         item.starting_bid = bid_price
         item.leading_bid = g.user.email
         item.save()
+
+
+@bp.route("/", methods=('GET', 'POST'))
+@login_required
+def index():
+
+    if request.method == 'POST':
+        bid_price = request.form['bid']
+        id = request.form['itemId']
+        bid_on_item(id, bid_price)
 
     items = Item.objects.all()
     #items.delete()
@@ -87,6 +90,22 @@ def sell():
             return redirect(url_for('items.index'))
 
     return render_template('items/sell.html')
+
+# Allow the user to view the item in detail, bid on it and share on social media
+@bp.route('/item/<id>/view', methods=('GET', 'POST'))
+@login_required
+def view(id):
+
+    item = get_item(id)
+
+    if request.method == 'POST':
+        id = request.form['itemId']
+        bid = request.form['bid']
+        bid_on_item(id, bid)
+
+    print(id)
+
+    return render_template('items/view.html', item=item)
 
 @bp.route('/item/<id>/update', methods=('GET', 'POST'))
 @login_required
