@@ -23,7 +23,7 @@
     <tbody>
       {% for item in items %}
       <tr>
-        <td>{{ item.title }}</td>
+        <td><a class="action btn btn-primary" href="{{ url_for('items.view', id=item['id']) }}">{{ item.title }}</a></td>
         <td>{{ item.description }}</td>
         <td>{{ item.starting_bid }}</td>
         <td>{{ item.seller.email }}</td>
