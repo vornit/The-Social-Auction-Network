@@ -47,16 +47,6 @@ def load_logged_in_user(user_id):
         return None
 
     return user
-"""
-def login_required(view):
-    @functools.wraps(view)
-    def wrapped_view(**kwargs):
-        if g.user is None:
-            return redirect(url_for('auth.login'))
-
-        return view(**kwargs)
-
-    return wrapped_view"""
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
