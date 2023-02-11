@@ -5,5 +5,38 @@
 {% endblock %}
 
 {% block content %}
+<div class="container">
   <p>Hello <span>{{ current_user['email'] }}</p>
+  <div class="card-footer">
+    {% if current_user == user %}
+     <a href="{{ url_for('items.sell') }}" class="btn btn-primary">Sell an Item</a>
+     <br>
+     <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a>
+    {% endif %}
+  </div>
+  <div class="col-sm-6 auction-section">
+    <h3>Recent Auctions</h3>
+    <div class="card-deck">
+      {% for auction in items %}
+      <div class="card">
+          <div class="card-body">
+              <h5 class="card-title">{{ auction.title }}</h5>
+              <p class="card-text">{{ auction.description }}</p>
+              <p class="card-text">Starting Bid: ${{ auction.starting_bid }}</p>
+          </div>
+          <div class="card-footer">
+              {% if auction.is_open %}
+                  {% if current_user == auction.seller %}
+                      <a href="{{ url_for('items.update', id=auction.id) }}" class="btn btn-primary">Update</a>
+                  {% else %}
+                      <a href="{{ url_for('items.bid', id=auction.id) }}" class="btn btn-primary">Place a bid</a>
+                  {% endif %}
+              {% else %}
+                  <div class="text-muted">Auction is Closed</div>
+              {% endif %}
+          </div>
+      </div>
+      {% endfor %}
+  </div>
+</div>
 {% endblock %}

@@ -31,10 +31,9 @@
   <h1>Social Auction System</h1>
   <ul>
     {% if current_user.is_authenticated %}
-      <li><span>{{ current_user['email'] }}</span>
+      <li class="nav-item"><a href="{{ url_for('auth.profile', email="me") }}" class="nav-link">{{ current_user['email'] }}</a></li>
       <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
       <li><a href="{{ url_for('items.index') }}">Items</a>
-      <li><a href="{{ url_for('auth.profile') }}">Profile</a>
     {% else %}
       <li><a href="{{ url_for('auth.register') }}">Register</a>
       <li><a href="{{ url_for('auth.login') }}">Log In</a>

@@ -2,7 +2,7 @@ import functools
 import logging
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, redirect, render_template, request, session, url_for, abort
 )
 
 from flask_login import (
@@ -16,7 +16,7 @@ from flask_login import (
 from werkzeug.security import check_password_hash, generate_password_hash
 from sentry_sdk import set_user
 
-from .models import User
+from .models import User, Item
 from mongoengine import DoesNotExist
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -144,9 +144,21 @@ def logout():
     return redirect(url_for('index'))
 
 
-@bp.route('/profile')
-def profile():
+@bp.route('/profile/<email>')
+@login_required
+def profile(email):
     """
-    Page for user profile (Unifinished)
+    Show the user's profile page for the given email.
+
+    If the email is 'me', then the current user's profile is shown.
     """
-    return render_template('auth/profile.html')
+    if email == 'me':
+        email = current_user.email
+
+    #Set the user by the email, return 404 if the email is incorrect
+    user: User = User.objects.get_or_404(email=email)
+
+    # List the items user has created
+    items = Item.objects(seller=user).all()
+
+    return render_template('auth/profile.html', user=user, items=items)
