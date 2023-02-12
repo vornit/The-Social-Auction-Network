@@ -19,17 +19,17 @@
                                 <form action="{{ url_for('items.index') }}" method="POST">
                                   <input type="hidden" name="itemId" value="{{item.id}}">
                                   <input style="width: 40px;" name="bid" value="{{bid_price}}">
-                                  <input type="submit" value="Bid">
+                                  <input class="action btn btn-primary" type="submit" value="Bid">
                                 </form>
                                 {% endif %}
                             </p>
                         <div class="form-group">
                             <div class="d-flex justify-content-end">
                                 <a href="https://www.facebook.com/sharer.php?u={{ url_for('items.view', id=item.id, _external=True) | urlencode }}" 
-                                target="_blank" class="btn btn-facebook" ><button name="action" value="share" class="btn btn-primary border-dark" 
+                                target="_blank" ><button name="action" value="share" class="action btn btn-primary" 
                                 style="background-color: #4267B2; color:#fff;" >
                                     Share on Facebook</button></a>
-                                <a href="{{ url_for('items.index') }}"><button name="action" value="return" class="btn btn-primary border-dark">Back to listing</button></a>
+                                <a href="{{ url_for('items.index') }}"><button name="action" value="return" class="action btn btn-primary">Back to listing</button></a>
                             </div>
                         </div>
                 </div>

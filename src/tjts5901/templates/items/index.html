@@ -3,7 +3,7 @@
 {% block header %}
   <h1>{% block title %}Items{% endblock %}</h1>
   {% if current_user.is_authenticated %}
-    <a class="action" href="/sell">New</a>
+    <a class="action btn btn-primary" href="/sell">New</a>
   {% endif %}
 {% endblock %}
 
@@ -23,22 +23,22 @@
     <tbody>
       {% for item in items %}
       <tr>
-        <td><a class="action btn btn-primary" href="{{ url_for('items.view', id=item['id']) }}">{{ item.title }}</a></td>
+        <td><a href="{{ url_for('items.view', id=item['id']) }}">{{ item.title }}</a></td>
         <td>{{ item.description }}</td>
         <td>{{ item.starting_bid }}</td>
         <td>{{ item.seller.email }}</td>
         <td>{{ item.created_at }}</td>
         <td>{{ item.closes_at }}</td>
         <td>{{ item.leading_bid }}</td>
-        <td>{% if current_user == item.seller %}
-        <a class="action btn btn-primary" href="{{ url_for('items.update', id=item['id']) }}">Edit</a>
-        {% endif %}</td>
+        {% if current_user == item.seller %}
+        <td><a class="action btn btn-primary" href="{{ url_for('items.update', id=item['id']) }}">Edit</a></td>
+        {% endif %}
         <td>{% if current_user != item.seller %}
           {% set bid_price = item.starting_bid + 1 %}
           <form action="{{ url_for('items.index') }}" method="POST">
             <input type="hidden" name="itemId" value="{{item.id}}">
             <input style="width: 40px;" name="bid" value="{{bid_price}}">
-            <input type="submit" value="Bid">
+            <input class="action btn btn-primary" type="submit" value="Bid">
           </form>
         {% endif %}</td>
       </tr>
