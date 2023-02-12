@@ -32,16 +32,15 @@
 <body>
 <nav>
   <h1>Social Auction System</h1>
-  <ul>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     {% if current_user.is_authenticated %}
-      <li class="nav-item"><a href="{{ url_for('auth.profile', email="me") }}" >{{ current_user['email'] }}</a></li>
-      <li class="nav-item"><a href="{{ url_for('auth.logout') }}" >Log Out</a></li>
-      <li class="nav-item"><a href="{{ url_for('items.index') }}">Items</a></li>
+      <a class="nav-item nav-link" href="{{ url_for('auth.profile', email="me") }}" >{{ current_user['email'] }}</a>
+      <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}" >Log Out</a>
+      <a class="nav-item nav-link" href="{{ url_for('items.index') }}">Items</a>
     {% else %}
-      <li class="nav-item"><a href="{{ url_for('auth.register') }}">Register</a></li>
-      <li class="nav-item"></li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+      <a class="nav-item nav-link" href="{{ url_for('auth.register') }}">Register</a>
+      <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">Log In</a>
     {% endif %}
-  </ul>
 </nav>
 <section class="content">
   <header>
