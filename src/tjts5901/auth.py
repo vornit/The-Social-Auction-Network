@@ -72,7 +72,7 @@ def register():
                     password=generate_password_hash(password)
                 )
                 user.save()
-                flash("Registeration Successfull")
+                flash("Registration Successful!")
             #Throw Error if anykind of exception occurred
             except Exception as exc:
                 error = f"Error when creating user: {exc!s}"
