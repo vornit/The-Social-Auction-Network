@@ -1,39 +1,94 @@
-<!-- Provides a page where the user can view one item at a time, bid and share the item on social media -->
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}View Item{% endblock %}</h1>
+    <div class="container">
+        <div class="d-flex align-items-center">
+            <h1 class="mr-auto">{% block title %}{{item.title}}{% endblock %}</h1>
+        </div>
+    </div>
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="card p-4">
-                    <h3 class="text-center mb-4">{{item.title}}</h3>
-                        <div class="item-info">
-                            <p>{{item.description}}</p>
-                            <p>Current price: {{item.starting_bid}}</p>
-                            <p>{% if g.user != item.seller %}
-                                {% set bid_price = item.starting_bid + 1 %}
-                                <form action="{{ url_for('items.index') }}" method="POST">
-                                  <input type="hidden" name="itemId" value="{{item.id}}">
-                                  <input style="width: 40px;" name="bid" value="{{bid_price}}">
-                                  <input class="action btn btn-primary" type="submit" value="Bid">
-                                </form>
-                                {% endif %}
-                            </p>
-                        <div class="form-group">
-                            <div class="d-flex justify-content-end">
-                                <a href="https://www.facebook.com/sharer.php?u={{ url_for('items.view', id=item.id, _external=True) | urlencode }}" 
-                                target="_blank" ><button name="action" value="share" class="action btn btn-primary" 
-                                style="background-color: #4267B2; color:#fff;" >
-                                    Share on Facebook</button></a>
-                                <a href="{{ url_for('items.index') }}"><button name="action" value="return" class="action btn btn-primary">Back to listing</button></a>
+<div class="container">
+    <div class="card mb-3">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                {# Maybe on future we'll have image support. Feels like an important feature to have. #}
+                <img src="#" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body border-0">
+                    <h5 class="card-title">{{item.title}} by <a href="#">{{item.seller.email}}</a></h5>
+                    <p class="card-text">
+                        {% if item.is_open %}
+                            <div class="form-group row">
+                                <div class="col-sm-4 col-form-label">
+                                    {# TODO: Follow dark patterns and change this to "time left" #}
+                                    Closes at
+                                </div>
+                                <div class="col-sm-8">
+                                    <time datetime="{{ item.closes_at.isoformat() }}">{{ item.closes_at }}</time>
+                                </div>
                             </div>
+                            <div class="form-group row">
+                                <div class="col-sm-4 col-form-label">
+                                    Added at
+                                </div>
+                                <div class="col-sm-8">
+                                    <time datetime="{{ item.created_at.isoformat() }}">{{ item.created_at }}</time>
+                                </div>
+                            </div>
+                            <hr /><!-- ------------------------------------------------ -->
+                            <div class="form-group row">
+                                <div class="col-sm-4 col-form-label">
+                                    {# TODO: Follow dark patterns and change this to "time left" #}
+                                    Starting bid
+                                </div>
+                                <div class="col-sm-8">
+                                    <strong>{{ min_bid }} &euro;</strong>
+                                </div>
+                            </div>
+                            <form action="{{ url_for('items.bid', id=item.id)}}" method="post">
+                                <div class="form-group row">
+                                    <label for="bid" class="col-sm-3 col-form-label">Your bid</label>
+                                    <div class="col-sm-6">
+                                        <label class="sr-only" for="bid">Bid amount</label>
+                                        <div class="input-group">
+                                            <input type="number" name="amount" class="" id="bid" placeholder="Bid amount" min="{{ min_bid }}" required> &euro;
+                                        </div>
+
+                                        <small class="form-text text-muted">
+                                            Minimum bid is {{ min_bid }} &euro;
+                                        </small>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <button type="submit" class="btn btn-info btn-lg btn-block border-dark">Bid</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        {% else %}
+                            <div class="alert alert-info">
+                                <strong>Item is no longer at sale.</strong> Next time, act faster!
+                            </div>
+                        {% endif %}
+                    </p>
+                    <hr />
+                    {# Contact seller buttons #}
+                    <div class="row">
+                        <div class="col">
+                            <a href="mailto:{{item.seller.email}}" class="btn btn-primary btn-sm">💌 Contact seller</a>
+                            <a href="tel:{{item.seller.phone}}" class="btn btn-primary btn-sm">☎️ Call seller</a>
                         </div>
                 </div>
             </div>
         </div>
+        <div clas="row">
+            <div class="col-md-12">
+                <p>{{item.description}}</p>
+            </div>
+        </div>
     </div>
+</div>
+
 {% endblock %}

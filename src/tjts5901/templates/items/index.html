@@ -13,11 +13,10 @@
       <tr>
         <th>Title</th>
         <th>Description</th>
-        <th>Price</th>
+        <th>Starting bid</th>
         <th>Seller</th>
         <th>Created At</th>
         <th>Closes At</th>
-        <th>Leading Bid</th>
       </tr>
     </thead>
     <tbody>
@@ -29,18 +28,10 @@
         <td>{{ item.seller.email }}</td>
         <td>{{ item.created_at }}</td>
         <td>{{ item.closes_at }}</td>
-        <td>{{ item.leading_bid }}</td>
         {% if current_user == item.seller %}
         <td><a class="action btn btn-primary" href="{{ url_for('items.update', id=item['id']) }}">Edit</a></td>
         {% endif %}
-        <td>{% if current_user != item.seller %}
-          {% set bid_price = item.starting_bid + 1 %}
-          <form action="{{ url_for('items.index') }}" method="POST">
-            <input type="hidden" name="itemId" value="{{item.id}}">
-            <input style="width: 40px;" name="bid" value="{{bid_price}}">
-            <input class="action btn btn-primary" type="submit" value="Bid">
-          </form>
-        {% endif %}</td>
+
       </tr>
       {% endfor %}
     </tbody>
