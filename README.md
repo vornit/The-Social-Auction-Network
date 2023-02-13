@@ -2,7 +2,7 @@
 
 URL for the auction app: https://thesocialnetworksyndicate-app.azurewebsites.net/
 
-Please report any bugs or issues you encounter by using the Gitlab "Issues"-funcionality and the "bug_report_template"-template.
+Please report any bugs or issues you encounter by using the Gitlab "Issues"-functionality and the "bug_report_template"-template.
 
 This is a group project for 2023 TJTS5901 Continuous Software Engineering -course.
 
