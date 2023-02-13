@@ -166,3 +166,6 @@ _docs/
 .env
 .DS_Store
 tmp/devcontainers-8476d89e-c997-4e2c-9cd5-922e23cb162b1675694472928/env-loginInteractiveShell.json
+
+# Ignore certificates to avoid adding secrets to git
+*.pem
