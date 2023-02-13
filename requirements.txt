@@ -6,6 +6,7 @@ flask
 python-dotenv
 flask-mongoengine==1.0
 flask-login
+flask-babel
 
 # Git hooks
 pre-commit
@@ -16,3 +17,5 @@ sentry-sdk[pymongo]
 
 # More production-ready web server
 #gunicorn
+
+
