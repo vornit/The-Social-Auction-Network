@@ -88,7 +88,14 @@ def server_info() -> Response:
     running correctly.
     """
 
-    database_ping: bool = False
+    # Check if the database is connectable.
+    database_ping = False
+    try:
+        from .db import db # pylint: disable=import-outside-toplevel
+        database_ping = db.connection.admin.command("ping").get("ok", False) and True
+    except Exception as exc: # pylint: disable=broad-except
+        logger.warning("Error querying mongodb server: %r", exc, exc_info=True, 
+        extra=flask_app.config.get_namespace("MONGODB"))
 
     response = {
         "database_connectable": database_ping,
