@@ -4,6 +4,9 @@ Did the basic logging setup and added SAST into the pipeline. Also implemented s
 ### Jaakko: 
 Changed app to use flask-login and userprofile-page
 
+### Renzo:
+Complemented the bug report secction on the readme.md file
+
 ## OWASP top ten week 3 considerations:
 
 ### A02:2021 – Cryptographic Failures
