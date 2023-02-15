@@ -136,6 +136,7 @@ def register():
                 )
                 user.save()
                 flash("Registration Successful!")
+                
             #Throw Error if anykind of exception occurred
             except Exception as exc:
                 error = f"Error when creating user: {exc!s}"
@@ -144,8 +145,6 @@ def register():
 
         print("Could not register user:", error)
         flash(error)
-
-
 
     return render_template('auth/register.html')
 

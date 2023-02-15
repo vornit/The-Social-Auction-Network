@@ -167,7 +167,7 @@ def view(id):
     winning_bid = get_winning_bid(item)
     min_bid = get_item_price(item)
 
-    if item.closes_at < datetime.utcnow() and winning_bid.bidder == g.user:
+    if item.closes_at < datetime.utcnow() and winning_bid.bidder == current_user:
         flash("Congratulations! You won the auction!")
     elif item.closes_at < datetime.utcnow() + timedelta(hours=1):
         # Dark pattern to show enticing message to user
