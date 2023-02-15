@@ -20,3 +20,6 @@ FLASK_DEBUG=1
 # Enable rich logging for more human readable log output. Requires installing
 # `rich` and `flask-rich` packages.
 #RICH_LOGGING=1
+
+# Setup CI environment url to point on localhost for testing purposes.
+CI_ENVIRONMENT_URL=http://localhost:5001
