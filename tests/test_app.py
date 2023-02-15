@@ -21,7 +21,7 @@ def test_fetch_mainpage(client: FlaskClient):
     """
 
     # Request frontpage
-    page = client.get('/')
+    page = client.get('/auth/login?next=%2F')
 
     # Check that page contains something.
     # Note about assert; assert is special kind of keyword. By default
