@@ -10,7 +10,7 @@ from flask.testing import FlaskClient
 
 
 # This is the string we are looking for in the frontpage.
-IN_TITLE = "Redirecting"
+IN_TITLE = "Social"
 
 def test_fetch_mainpage(client: FlaskClient):
     """
