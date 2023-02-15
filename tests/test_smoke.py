@@ -54,3 +54,15 @@ def test_404(deployment_address, path="/_404"):
     deployment_address = deployment_address.rstrip("/")
     resp = requests.get(deployment_address + path, timeout=5)
     assert resp.status_code == 404, f"Expected to receive 404 for path {path}"
+
+
+def test_frontpage_loading(deployment_address):
+    """
+    Fetch frontpage of our application, and check for known string.
+    """
+    from test_app import IN_TITLE  # pylint: disable=import-outside-toplevel
+
+    resp = requests.get(deployment_address, timeout=5)
+
+    assert resp.status_code == 200, f"Failed to fetch page {deployment_address}"
+    assert IN_TITLE.encode() in resp.content
