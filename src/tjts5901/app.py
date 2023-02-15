@@ -97,8 +97,19 @@ def server_info() -> Response:
         logger.warning("Error querying mongodb server: %r", exc, exc_info=True, 
         extra=flask_app.config.get_namespace("MONGODB"))
 
+    #Check if Sentry is working
+    sentry_available = False
+    try:
+        from sentry_sdk import Hub
+        sentry_available = Hub.current.client is not None
+    except ImportError:
+        logger.warning("Sentry SDK not installed")
+    except TypeError:
+        logger.info("Sentry is not integrated")
+
     response = {
         "database_connectable": database_ping,
+        "sentry_available": sentry_available,
         "version": get_version(),
         "build_date": environ.get("BUILD_DATE", None)
     }
