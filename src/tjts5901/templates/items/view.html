@@ -42,7 +42,7 @@
                             <div class="form-group row">
                                 <div class="col-sm-4 col-form-label">
                                     {# TODO: Follow dark patterns and change this to "time left" #}
-                                    Starting bid
+                                    Current bid
                                 </div>
                                 <div class="col-sm-8">
                                     <strong>{{ min_bid }} &euro;</strong>
@@ -54,11 +54,11 @@
                                     <div class="col-sm-6">
                                         <label class="sr-only" for="bid">Bid amount</label>
                                         <div class="input-group">
-                                            <input type="number" name="amount" class="" id="bid" placeholder="Bid amount" min="{{ min_bid }}" required> &euro;
+                                            <input type="number" name="amount" class="" id="bid" placeholder="Bid amount" min="{{ min_bid + 1 }}" required> &euro;
                                         </div>
 
                                         <small class="form-text text-muted">
-                                            Minimum bid is {{ min_bid }} &euro;
+                                            Minimum bid is {{ min_bid + 1 }} &euro;
                                         </small>
                                     </div>
                                     <div class="col-sm-3">

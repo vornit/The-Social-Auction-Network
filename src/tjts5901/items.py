@@ -239,8 +239,9 @@ def bid(id):
     min_amount = get_item_price(item)
     amount = int(request.form['amount'])
 
-    if amount < min_amount:
-        flash(f"Bid must be at least {min_amount}")
+    #Bid must be higher than the last bid
+    if amount <= min_amount:
+        flash(f"Bid must be at least {min_amount+1}")
         return redirect(url_for('items.view', id=id))
 
     if item.closes_at < datetime.utcnow():
@@ -320,7 +321,7 @@ def api_item_place_bid(id):
             'error': _("Error parsing argument %(argname)s: %(exc)s", argname='amount', exc=exc)
         })
 
-    if amount < min_amount:
+    if amount <= min_amount:
         return jsonify({
             'success': False,
             'error': _("Bid must be at least %(min_amount)s", min_amount=min_amount)
