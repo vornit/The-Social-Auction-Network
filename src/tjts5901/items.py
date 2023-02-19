@@ -32,21 +32,21 @@ def get_winning_bid(item: Item) -> Optional[Bid]:
     """
     Return the (currently) winning bid for the given item.
 
-    If there are no bids, return starting bid.
+    If there are no bids, return None.
 
     :param item: The item to get the winning bid for.
     :return: The winning bid, or None.
     """
 
-    winning_bid = item.starting_bid
+    winning_bid = None
     try:
         winning_bid = Bid.objects(item=item) \
             .filter(created_at__lt=item.closes_at) \
             .order_by('-amount') \
             .first()
         # Print for debugging
-        print("Bid.objects:")
-        print(Bid.objects)
+        # print("Bid.objects:")
+        # print(Bid.objects)
     except Exception as exc:
         logger.warning("Error getting winning bid: %s", exc, exc_info=True, extra={
             'item_id': item.id,
@@ -173,9 +173,8 @@ def view(id):
         flash("Sorry, item is not for sale anymore")
         return render_template('items/index.html', items=items)
 
-    # First we have to check if the winning bid is actually a bid (if not, it's still the starting price)
-    if isinstance(winning_bid, Bid):
-        if item.closes_at < datetime.utcnow() and winning_bid.bidder == current_user:
+    # Inform the user if he/she has won the bid
+    if item.closes_at < datetime.utcnow() and winning_bid.bidder == current_user:
             flash("Congratulations! You won the auction!")
     elif item.closes_at < datetime.utcnow() + timedelta(hours=1):
         # Dark pattern to show enticing message to user
