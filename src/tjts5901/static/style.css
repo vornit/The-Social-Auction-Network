@@ -5,3 +5,8 @@ table, th, td {
 .form-check-input {
     margin-left: 15px;
 }
+
+body {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
