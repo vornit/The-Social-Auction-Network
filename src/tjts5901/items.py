@@ -32,13 +32,13 @@ def get_winning_bid(item: Item) -> Optional[Bid]:
     """
     Return the (currently) winning bid for the given item.
 
-    If there are no bids, or the item is not yet closed, return None.
+    If there are no bids, return starting bid.
 
     :param item: The item to get the winning bid for.
     :return: The winning bid, or None.
     """
 
-    winning_bid = None
+    winning_bid = item.starting_bid
     try:
         winning_bid = Bid.objects(item=item) \
             .filter(created_at__lt=item.closes_at) \
@@ -166,6 +166,12 @@ def view(id):
     # Set the minumum price for the bid form from the current winning bid
     winning_bid = get_winning_bid(item)
     min_bid = get_item_price(item)
+
+    # If the bidding is already over and user is not the winner, do not load view of the item
+    if winning_bid == None:
+        items = Item.objects.all()
+        flash("Sorry, item is not for sale anymore")
+        return render_template('items/index.html', items=items)
 
     if item.closes_at < datetime.utcnow() and winning_bid.bidder == current_user:
         flash("Congratulations! You won the auction!")
