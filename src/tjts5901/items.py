@@ -173,18 +173,15 @@ def view(id):
     # print("min_bid:")
     # print(min_bid)
 
+    # Inform the user if he/she has won the bid
+    if winning_bid:
+        if item.closes_at < datetime.utcnow() and winning_bid.bidder == current_user:
+            flash("Congratulations! You won the auction!")
     # If the bidding is already over and user is not the winner, do not load view of the item
-    if winning_bid is None:
+    elif item.closes_at < datetime.utcnow():
         items = Item.objects.all()
         flash("Sorry, item is not for sale anymore")
         return render_template('items/index.html', items=items)
-
-    # Inform the user if he/she has won the bid
-    if item.closes_at < datetime.utcnow() and winning_bid.bidder == current_user:
-            flash("Congratulations! You won the auction!")
-    elif item.closes_at < datetime.utcnow() + timedelta(hours=1):
-        # Dark pattern to show enticing message to user
-        flash("This item is closing soon! Act now! Now! Now!")
 
     return render_template('items/view.html', item=item, min_bid=min_bid)
 
