@@ -141,7 +141,7 @@ def sell():
 
     return render_template('items/sell.html')
 
-@bp.route('/item/<id>')
+@bp.route('/item/<id>', methods=('GET',))
 def view(id):
     """
     Item view page.
