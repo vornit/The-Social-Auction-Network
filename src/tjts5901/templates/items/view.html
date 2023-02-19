@@ -48,7 +48,7 @@
                                     <strong>{{ min_bid }} &euro;</strong>
                                 </div>
                             </div>
-                            <form action="{{ url_for('items.bid', id=item.id)}}" method="post">
+                            <form action="{{ url_for('items.bid', id=item.id)}}" method="POST">
                                 <div class="form-group row">
                                     <label for="bid" class="col-sm-3 col-form-label">Your bid</label>
                                     <div class="col-sm-6">

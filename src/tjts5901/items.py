@@ -67,7 +67,7 @@ def get_item_price(item: Item) -> int:
 
     winning_bid = get_winning_bid(item)
     if winning_bid:
-        return winning_bid.amount + MIN_BID_INCREMENT
+        return winning_bid.amount
     else:
         return item.starting_bid
 
@@ -141,7 +141,7 @@ def sell():
 
     return render_template('items/sell.html')
 
-@bp.route('/item/<id>', methods=('GET',))
+@bp.route('/item/<id>', methods=('GET', 'POST'))
 def view(id):
     """
     Item view page.
@@ -155,13 +155,15 @@ def view(id):
     print("Item ID: ")
     print(item.id)
 
-    # Set the minumum price for the bid form from the current winning bid
+    # Set the minimum price for the bid form from the current winning bid
     winning_bid = get_winning_bid(item)
     min_bid = get_item_price(item)
 
     # Print bids for debugging:
     print("winning_bid:")
     print(winning_bid)
+    print("winning_bid.amount: ")
+    print(winning_bid.amount)
     print("min_bid:")
     print(min_bid)
 
