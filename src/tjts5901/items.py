@@ -44,6 +44,9 @@ def get_winning_bid(item: Item) -> Optional[Bid]:
             .filter(created_at__lt=item.closes_at) \
             .order_by('-amount') \
             .first()
+        # Print for debugging
+        print("Bid.objects:")
+        print(Bid.objects)
     except Exception as exc:
         logger.warning("Error getting winning bid: %s", exc, exc_info=True, extra={
             'item_id': item.id,
@@ -69,6 +72,7 @@ def get_item_price(item: Item) -> int:
         return item.starting_bid
 
 
+# TODO: Function not in use? If not, should be removed.
 def bid_on_item(id, bid_price):
         print(bid_price)
         print(id)
@@ -137,22 +141,6 @@ def sell():
 
     return render_template('items/sell.html')
 
-# Allow the user to view the item in detail, bid on it and share on social media
-@bp.route('/item/<id>/view', methods=('GET', 'POST'))
-@login_required
-def view2(id):
-
-    item = get_item(id)
-
-    if request.method == 'POST':
-        id = request.form['itemId']
-        bid = request.form['bid']
-        bid_on_item(id, bid)
-
-    print(id)
-
-    return render_template('items/view.html', item=item)
-
 @bp.route('/item/<id>')
 def view(id):
     """
@@ -161,14 +149,24 @@ def view(id):
     Displays the item details, and a form to place a bid.
     """
 
-    item = Item.objects.get_or_404(id=id)
+    item = get_item(id)
+
+    # Print item id for debugging
+    print("Item ID: ")
+    print(item.id)
 
     # Set the minumum price for the bid form from the current winning bid
     winning_bid = get_winning_bid(item)
     min_bid = get_item_price(item)
 
+    # Print bids for debugging:
+    print("winning_bid:")
+    print(winning_bid)
+    print("min_bid:")
+    print(min_bid)
+
     # If the bidding is already over and user is not the winner, do not load view of the item
-    if winning_bid == None:
+    if winning_bid is None:
         items = Item.objects.all()
         flash("Sorry, item is not for sale anymore")
         return render_template('items/index.html', items=items)
@@ -186,6 +184,9 @@ def view(id):
 @bp.route('/item/<id>/update', methods=('GET', 'POST'))
 @login_required
 def update(id):
+    """
+    Item update page
+    """
 
     item = get_item(id)
 

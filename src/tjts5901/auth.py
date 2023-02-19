@@ -158,6 +158,7 @@ def login():
         password = request.form['password']
 
         error = None
+        user = None
         #Look for email form the existing user emails
         try:
             user = User.objects.get(email=email)
