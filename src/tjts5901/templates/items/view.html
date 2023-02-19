@@ -79,6 +79,10 @@
                         <div class="col">
                             <a href="mailto:{{item.seller.email}}" class="btn btn-primary btn-sm">💌 Contact seller</a>
                             <a href="tel:{{item.seller.phone}}" class="btn btn-primary btn-sm">☎️ Call seller</a>
+                            <a href="https://www.facebook.com/sharer.php?u={{ url_for('items.view', id=item.id, _external=True) | urlencode }}" 
+                            target="_blank" class="btn btn-facebook" ><button name="action" value="share" class="btn btn-primary btn-sm border-dark" 
+                            style="background-color: #4267B2; color:#fff;" >
+                                Share item on Facebook</button></a>
                         </div>
                 </div>
             </div>
