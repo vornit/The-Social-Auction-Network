@@ -17,6 +17,12 @@ logger = logging.getLogger(__name__)
 MIN_BID_INCREMENT = 1
 
 def get_item(id):
+    """
+    Returns an item.
+
+    :param id: The ID of the item to be returned.
+    :return: An item with the ID given as a parameter.
+    """
     try:
         item = Item.objects.get_or_404(id=id)
     except Exception as exc:
