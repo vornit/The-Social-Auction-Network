@@ -78,22 +78,12 @@ def get_item_price(item: Item) -> int:
         return item.starting_bid
 
 
-# TODO: Function not in use? If not, should be removed.
-def bid_on_item(id, bid_price):
-        print(bid_price)
-        print(id)
-
-        item = get_item(id)
-
-        item.starting_bid = bid_price
-        item.leading_bid = current_user.email
-        item.save()
-
-
 @bp.route("/", methods=('GET', 'POST'))
 @login_required
 def index():
-
+    """
+    Shows all the items for sale in the same view.
+    """
     if request.method == 'POST':
         bid_price = request.form['bid']
         id = request.form['itemId']
@@ -109,11 +99,13 @@ def index():
 @bp.route('/sell', methods=('GET', 'POST'))
 @login_required
 def sell():
+    """
+    Page where items can be put for sale.
+    """
     if request.method == 'POST':
         title = request.form['title']
         description = request.form['description']
-        starting_bid = int(request.form['starting_bid'])
-
+        starting_bid = int(float(request.form['starting_bid']))
 
         error = None
 
@@ -223,6 +215,9 @@ def update(id):
 @bp.route('/item/<id>/delete', methods=('POST',))
 @login_required
 def delete(id):
+    """
+    Delete an item.
+    """
     item = get_item(id)
     try:
         item.delete()
@@ -253,7 +248,7 @@ def bid(id):
 
     #Bid must be higher than the last bid
     if amount <= min_amount:
-        flash(f"Bid must be at least {min_amount+1}")
+        flash(f"Bid must be at least {min_amount+MIN_BID_INCREMENT}")
         return redirect(url_for('items.view', id=id))
 
     if item.closes_at < datetime.utcnow():
