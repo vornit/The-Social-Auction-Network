@@ -126,16 +126,12 @@ def sell():
                     closes_at = datetime.utcnow() + timedelta(days=1)
                 )
                 item.save()
+                return redirect(url_for('items.index'))
             except Exception as exc:
                 error = f"Error creating item: {exc!s}"
-
-            else:
-                return redirect(url_for('items.index'))
-
+        else:
             print(error)
             flash(error)
-        
-            return redirect(url_for('items.index'))
 
     return render_template('items/sell.html')
 
