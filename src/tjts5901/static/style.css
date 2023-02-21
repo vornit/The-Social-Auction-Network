@@ -13,4 +13,8 @@ body {
 
 #item_description {
     width: 30%;
+
+.user-item {
+    border:solid black 2px; 
+    width: 20%;
 }

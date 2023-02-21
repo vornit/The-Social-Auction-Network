@@ -14,11 +14,11 @@
      <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a>
     {% endif %}
   </div>
-  <div class="col-sm-6 auction-section">
+  <div class="users-items">
     <h3>Your Auctions</h3>
     <div class="card-deck">
       {% for auction in items %}
-      <div class="card" style="border:solid black 2px; width: 20%">
+      <div class="user-item">
           <div class="card-body">
               <h5 class="card-title">Title: {{ auction.title }}</h5>
               <p class="card-text">Description: {{ auction.description }}</p>
