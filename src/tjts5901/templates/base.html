@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="fi_FI.UTF-8">
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -35,11 +35,24 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     {% if current_user.is_authenticated %}
       <a class="nav-item nav-link" href="{{ url_for('auth.profile', email="me") }}" >{{ current_user['email'] }}</a>
-      <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}" >Log Out</a>
-      <a class="nav-item nav-link" href="{{ url_for('items.index') }}">Items</a>
+      <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}" >{{_("Log out")}}</a>
+      <a class="nav-item nav-link" href="{{ url_for('items.index') }}">{{_("Items")}}</a>
+      
+      <form action="/action_page.php">
+      <label for="cars">Choose a car:</label>
+      <select name="cars" id="cars">
+      <option value="volvo">Volvo</option>
+      <option value="saab">Saab</option>
+      <option value="opel">Opel</option>
+      <option value="audi">Audi</option>
+      </select>
+      <br><br>
+      <input type="submit" value="Submit">
+      </form>
+
     {% else %}
-      <a class="nav-item nav-link" href="{{ url_for('auth.register') }}">Register</a>
-      <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">Log In</a>
+      <a class="nav-item nav-link" href="{{ url_for('auth.register') }}">{{_("Register")}}</a>
+      <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">{{_("Log In")}}</a>
     {% endif %}
 </nav>
 <section class="content">

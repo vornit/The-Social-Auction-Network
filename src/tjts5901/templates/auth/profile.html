@@ -1,32 +1,32 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}User profile{% endblock %}</h1>
+  <h1>{% block title %}{{_("User profile")}}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
 <div class="container">
-  <p>Hello <span>{{ current_user['email'] }}</p>
+  <p>{{_("Hello")}} <span>{{ current_user['email'] }}</p>
   <div class="card-footer">
     {% if current_user == user %}
-     <a href="{{ url_for('items.sell') }}" class="btn btn-primary">Sell an Item</a>
+     <a href="{{ url_for('items.sell') }}" class="btn btn-primary">{{_("Sell an Item")}}</a>
      <br>
-     <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a>
+     <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">{{_("Log out")}}</a>
     {% endif %}
   </div>
   <div class="col-sm-6 auction-section">
-    <h3>Your Auctions</h3>
+    <h3>{{_("Your Auctions")}}</h3>
     <div class="card-deck">
       {% for auction in items %}
       <div class="card" style="border:solid black 2px; width: 20%">
           <div class="card-body">
-              <h5 class="card-title">Title: {{ auction.title }}</h5>
-              <p class="card-text">Description: {{ auction.description }}</p>
-              <p class="card-text">Starting Bid: ${{ auction.starting_bid }}</p>
+              <h5 class="card-title">{{_("Title")}}: {{ auction.title }}</h5>
+              <p class="card-text">{{_("Description")}}: {{ auction.description }}</p>
+              <p class="card-text">{{_("Starting Bid")}}: ${{ auction.starting_bid }}</p>
           </div>
           <div class="card-footer">
               {% if current_user == auction.seller %}
-                  <a href="{{ url_for('items.update', id=auction.id) }}" class="btn btn-primary">Update</a>
+                  <a href="{{ url_for('items.update', id=auction.id) }}" class="btn btn-primary">{{_("Update")}}</a>
               {% endif %}
           </div>
       </div>

@@ -18,13 +18,13 @@
             </div>
             <div class="col-md-8">
                 <div class="card-body border-0">
-                    <h5 class="card-title">{{item.title}} by <a href="#">{{item.seller.email}}</a></h5>
+                    <h5 class="card-title">{{item.title}} {{_("by")}} <a href="#">{{item.seller.email}}</a></h5>
                     <p class="card-text">
                         {% if item.is_open %}
                             <div class="form-group row">
                                 <div class="col-sm-4 col-form-label">
                                     {# TODO: Follow dark patterns and change this to "time left" #}
-                                    Closes at
+                                    {{_("Closes at")}}
                                 </div>
                                 <div class="col-sm-8">
                                     <time datetime="{{ item.closes_at.isoformat() }}">{{ item.closes_at }}</time>
@@ -32,7 +32,7 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-4 col-form-label">
-                                    Added at
+                                    {{_("Added at")}}
                                 </div>
                                 <div class="col-sm-8">
                                     <time datetime="{{ item.created_at.isoformat() }}">{{ item.created_at }}</time>
@@ -42,7 +42,7 @@
                             <div class="form-group row">
                                 <div class="col-sm-4 col-form-label">
                                     {# TODO: Follow dark patterns and change this to "time left" #}
-                                    Current bid
+                                    {{_("Current bid")}}
                                 </div>
                                 <div class="col-sm-8">
                                     <strong>{{ min_bid }} &euro;</strong>
@@ -50,19 +50,19 @@
                             </div>
                             <form action="{{ url_for('items.bid', id=item.id)}}" method="POST">
                                 <div class="form-group row">
-                                    <label for="bid" class="col-sm-3 col-form-label">Your bid</label>
+                                    <label for="bid" class="col-sm-3 col-form-label">{{_("Your bid")}}</label>
                                     <div class="col-sm-6">
-                                        <label class="sr-only" for="bid">Bid amount</label>
+                                        <label class="sr-only" for="bid">{{_("Bid amount")}}</label>
                                         <div class="input-group">
                                             <input type="number" name="amount" class="" id="bid" placeholder="Bid amount" min="{{ min_bid + 1 }}" required> &euro;
                                         </div>
 
                                         <small class="form-text text-muted">
-                                            Minimum bid is {{ min_bid + 1 }} &euro;
+                                            {{_("Minimum bid is")}} {{ min_bid + 1 }} &euro;
                                         </small>
                                     </div>
                                     <div class="col-sm-3">
-                                        <button type="submit" class="btn btn-info btn-lg btn-block border-dark">Bid</button>
+                                        <button type="submit" class="btn btn-info btn-lg btn-block border-dark">{{_("Bid")}}</button>
                                     </div>
                                 </div>
                             </form>
@@ -77,12 +77,12 @@
                     {# Contact seller buttons #}
                     <div class="row">
                         <div class="col">
-                            <a href="mailto:{{item.seller.email}}" class="btn btn-primary btn-sm">💌 Contact seller</a>
-                            <a href="tel:{{item.seller.phone}}" class="btn btn-primary btn-sm">☎️ Call seller</a>
+                            <a href="mailto:{{item.seller.email}}" class="btn btn-primary btn-sm">💌 {{_("Contact seller")}}</a>
+                            <a href="tel:{{item.seller.phone}}" class="btn btn-primary btn-sm">☎️ {{_("Call seller")}}</a>
                             <a href="https://www.facebook.com/sharer.php?u={{ url_for('items.view', id=item.id, _external=True) | urlencode }}" 
                             target="_blank" class="btn btn-facebook" ><button name="action" value="share" class="btn btn-primary btn-sm border-dark" 
                             style="background-color: #4267B2; color:#fff;" >
-                                Share item on Facebook</button></a>
+                                {{_("Share item on Facebook")}}</button></a>
                         </div>
                 </div>
             </div>

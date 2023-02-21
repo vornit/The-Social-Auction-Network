@@ -22,6 +22,9 @@ from flask import (
 from .utils import get_version
 from .db import init_db
 from .logging import logger, init_logging
+from .i18n import init_babel
+
+from flask_babel import _
 
 
 def create_app(config: Optional[Dict] = None) -> Flask:
@@ -51,13 +54,16 @@ def create_app(config: Optional[Dict] = None) -> Flask:
     except OSError:
         pass
 
+    # Initialize the Flask-Babel extension.
+    init_babel(flask_app)
+
     # Initialize the database connection.
     init_db(flask_app)
 
     # A simple page that says hello for testing purpose
     @flask_app.route('/hello')
     def hello():
-        return 'Hello, World!'
+        return _('Hello, World!')
 
     #from . import auth
     #flask_app.register_blueprint(auth.bp)
