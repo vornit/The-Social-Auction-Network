@@ -5,9 +5,13 @@
 #
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2023-02-04 20:30+0000\n"
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2023-02-11 10:53+0000\n"
 "PO-Revision-Date: 2023-02-04 21:51+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fi_FI\n"
+"Language-Team: fi_FI <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -18,9 +22,58 @@ msgstr ""
 msgid "Hill Valley DMC dealership"
 msgstr "Hill Valley DMC -liike"
 
-#: src/tjts5901/app.py:74
+#: src/tjts5901/app.py:74 tests/test_i18n.py:77 tests/test_i18n.py:101
 msgid "Hello, World!"
 msgstr "Hei Maailma!"
+
+#: src/tjts5901/items.py:122
+#, python-format
+msgid "Error creating item: %(exc)s"
+msgstr "Virhe luotaessa tuotetta: %(exc)s"
+
+#: src/tjts5901/items.py:152
+msgid "Congratulations! You won the auction!"
+msgstr "Onnittelut! Voitit huutokaupan!"
+
+#: src/tjts5901/items.py:155
+msgid "This item is closing soon! Act now! Now! Now!"
+msgstr "Tämä tuote sulkeutuu pian! Toimi nyt! Heti! Nyt!"
+
+#: src/tjts5901/items.py:171
+msgid "Title is required."
+msgstr "Otsikko on pakollinen."
+
+#: src/tjts5901/items.py:178
+#, python-format
+msgid "Error updating item: %(exc)s"
+msgstr "Virhe päivitettäessä tuotetta: %(exc)s"
+
+#: src/tjts5901/items.py:183
+msgid "Item updated successfully!"
+msgstr "Tuote päivitetty onnistuneesti!"
+
+#: src/tjts5901/items.py:202
+#, python-format
+msgid "Error deleting item: %(exc)s"
+msgstr "Virhe poistaessa tuotetta: %(exc)s"
+
+#: src/tjts5901/items.py:204
+msgid "Item deleted successfully!"
+msgstr "Tuote poistettu onnistuneesti!"
+
+#: src/tjts5901/items.py:226
+#, python-format
+msgid "Bid must be at least %(min_amount)s"
+msgstr "Huudon tulee olla vähintään %(min_amount)s"
+
+#: src/tjts5901/items.py:243
+#, python-format
+msgid "Error placing bid: %(exc)s"
+msgstr "Virhe asettaessa huutoa: %(exc)s"
+
+#: src/tjts5901/items.py:245
+msgid "Bid placed successfully!"
+msgstr "Huuto asetettu onnistuneesti!"
 
 #: src/tjts5901/templates/base.html:48
 msgid "Home"
@@ -34,33 +87,25 @@ msgstr "Myy"
 msgid "About"
 msgstr "Tietoa"
 
-#: src/tjts5901/templates/base.html:60
+#: src/tjts5901/templates/base.html:61
+msgid "Language"
+msgstr "Kieli"
+
+#: src/tjts5901/templates/base.html:72
 msgid "Log Out"
 msgstr "Kirjaudu ulos"
 
-#: src/tjts5901/templates/base.html:62
+#: src/tjts5901/templates/base.html:74
 msgid "Register"
 msgstr "Rekisteröidy"
 
-#: src/tjts5901/templates/base.html:63
+#: src/tjts5901/templates/base.html:75
 msgid "Log In"
 msgstr "Kirjaudu sisään"
 
-#: src/tjts5901/templates/base.html:68
+#: src/tjts5901/templates/base.html:80
 msgid "Search"
 msgstr "Etsi"
-
-msgid "Starting bid"
-msgstr "Aloitushinta"
-
-msgid "Log out"
-msgstr "Kirjaudu ulos"
-
-msgid "Items"
-msgstr "Tuotteet"
-
-msgid "New item"
-msgstr "Uusi tuote"
 
 #: src/tjts5901/templates/auth/login.html:25
 msgid "Sign in to our platform"
@@ -194,61 +239,59 @@ msgstr "Oletko varma?"
 msgid "Delete"
 msgstr "Poista"
 
+#: src/tjts5901/templates/items/view.html:21
+#, python-format
+msgid "%(item)s by %(seller)s"
+msgstr "%(item)s, myyjänä %(seller)s"
+
 #: src/tjts5901/templates/items/view.html:27
 msgid "Closes at"
 msgstr "Sulkeutuu"
 
+#: src/tjts5901/templates/items/view.html:35
 msgid "Added at"
 msgstr "Lisätty"
 
-msgid "Current bid"
-msgstr "Nykyinen hinta"
+#: src/tjts5901/templates/items/view.html:45
+msgid "Starting bid"
+msgstr "Aloitushinta"
 
-msgid "Your bid"
-msgstr "Tarjouksesi"
-
-msgid "Contact seller"
-msgstr "Ota yhteyttä myyjään"
-
-msgid "Call seller"
-msgstr "Soita myyjälle"
-
-msgid "Share item on Facebook"
-msgstr "Jaa Facebookissa"
-
+#: src/tjts5901/templates/items/view.html:55
 msgid "Bid amount"
-msgstr "Summa"
+msgstr "Tarjous"
 
-msgid "Minimum bid is"
-msgstr "Vähimmäistarjous on"
+#: src/tjts5901/templates/items/view.html:61
+#, python-format
+msgid "Minimum bid is %(min_bid)s"
+msgstr "Vähimmäistarjous on %(min_bid)s"
 
-msgid "by"
-msgstr ", Myyjä:"
-
+#: src/tjts5901/templates/items/view.html:65
 msgid "Bid"
 msgstr "Tarjoa"
 
-#: src/tjts5901/templates/auth/profile.html:4
-msgid "User profile"
-msgstr "Käyttäjäprofiili"
+#: src/tjts5901/templates/items/view.html:72
+#, fuzzy
+msgid "Item is no longer at sale."
+msgstr "Myynnissä olevat tuotteet"
 
-msgid "Hello"
-msgstr "Hei"
+#: src/tjts5901/templates/items/view.html:72
+msgid "Next time, act faster!"
+msgstr "Jatkossa toimi nopeammin!"
 
-msgid "Sell an item"
-msgstr "Myy tavara"
+#: src/tjts5901/templates/items/view.html:80
+#, python-format
+msgid "%(icon)s Contact seller"
+msgstr "%(icon)s Ota yhteyttä myyjään"
 
-msgid "Log out"
-msgstr "Kirjaudu ulos"
+#: src/tjts5901/templates/items/view.html:81
+#, python-format
+msgid "%(icon)s Call seller"
+msgstr "%(icon)s Soita myyjälle"
 
-msgid "Title"
-msgstr "Otsikko"
+#: src/tjts5901/templates/items/view.html:96
+msgid "Elon-senpai notice me!"
+msgstr "Elon-senpai huomioi minut!"
 
-msgid "Description"
-msgstr "Kuvaus"
-
-msgid "Starting Bid"
-msgstr "Aloitushinta"
-
-msgid "Update"
-msgstr "Päivitä"
+#: src/tjts5901/templates/items/view.html:104
+msgid "Email to a friend"
+msgstr "Lähetä ystävälle"
