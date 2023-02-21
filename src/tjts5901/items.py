@@ -52,7 +52,7 @@ def get_winning_bid(item: Item) -> Optional[Bid]:
             .first()
         # Print for debugging
         # print("Bid.objects:")
-        # print(Bid.objects)
+        # print(Bid.objects.first())
     except Exception as exc:
         logger.warning("Error getting winning bid: %s", exc, exc_info=True, extra={
             'item_id': item.id,
@@ -87,11 +87,9 @@ def index():
     if request.method == 'POST':
         bid_price = request.form['bid']
         id = request.form['itemId']
-        bid_on_item(id, bid_price)
 
     items = Item.objects.all()
     #items.delete()
-
     
     return render_template('items/index.html',
         items=items)
