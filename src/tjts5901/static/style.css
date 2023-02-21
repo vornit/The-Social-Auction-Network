@@ -10,3 +10,8 @@ body {
     margin-left: 0.5em;
     margin-right: 0.5em;
 }
+
+.user-item {
+    border:solid black 2px; 
+    width: 20%;
+}

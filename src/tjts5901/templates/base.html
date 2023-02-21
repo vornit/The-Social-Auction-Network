@@ -35,8 +35,8 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     {% if current_user.is_authenticated %}
       <a class="nav-item nav-link" href="{{ url_for('auth.profile', email="me") }}" >{{ current_user['email'] }}</a>
-      <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}" >Log Out</a>
       <a class="nav-item nav-link" href="{{ url_for('items.index') }}">Items</a>
+      <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}" >Log Out</a>
     {% else %}
       <a class="nav-item nav-link" href="{{ url_for('auth.register') }}">Register</a>
       <a class="nav-item nav-link" href="{{ url_for('auth.login') }}">Log In</a>
@@ -46,8 +46,10 @@
   <header>
     {% block header %}{% endblock %}
   </header>
-  {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
+  {% for message in get_notifications() %}
+    <div>
+      {{ message['message'] }}
+    </div>
   {% endfor %}
   {% block content %}{% endblock %}
 </section>

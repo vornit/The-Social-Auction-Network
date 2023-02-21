@@ -64,6 +64,8 @@ def create_app(config: Optional[Dict] = None) -> Flask:
     from .auth import init_auth
     init_auth(flask_app)
 
+    from .notification import init_notification
+    init_notification(flask_app)
 
     from . import items
     flask_app.register_blueprint(items.bp)

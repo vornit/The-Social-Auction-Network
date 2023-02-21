@@ -95,6 +95,32 @@ class Bid(db.Document):
     created_at = DateTimeField(required=True, default=datetime.utcnow)
     "Date and time that the bid was placed."
 
+class Notification(db.Document):
+    """
+    Represents a message between two users, or a message to a user from
+    the system.
+    """
+
+    meta = {"indexes": [
+        {"fields": [
+            "user",
+            "read_at",
+            "created_at",
+        ]}
+    ]}
+
+    id: ObjectId
+
+    user = ReferenceField(User, required=True)
+
+    category = StringField(max_length=100, default="message")
+    message = StringField(required=True)
+    title = StringField(max_length=120)
+
+    created_at = DateTimeField(required=True, default=datetime.utcnow)
+    read_at = DateTimeField(required=False)
+
+
 
 class AccessToken(db.Document):
     """
