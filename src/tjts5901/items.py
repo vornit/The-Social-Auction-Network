@@ -14,6 +14,8 @@ api = Blueprint('api_items', __name__, url_prefix='/api/items')
 
 logger = logging.getLogger(__name__)
 
+from flask_babel import _
+
 MIN_BID_INCREMENT = 1
 
 def get_item(id):
@@ -110,7 +112,7 @@ def sell():
         error = None
 
         if not title:
-            error = 'Title is required.'
+            error = _('Title is required.')
         if not starting_bid or starting_bid < 1:
             error = 'Starting bid must be greater than 0.'
 
@@ -128,10 +130,16 @@ def sell():
                 item.save()
                 return redirect(url_for('items.index'))
             except Exception as exc:
-                error = f"Error creating item: {exc!s}"
+                error = _("Error creating item: %(exc)s", exc=exc)
+                logger.warning("Error creating item: %s", exc, exc_info=True, extra={
+                    'title': title,
+                    'description': description,
+                    'starting_bid': starting_bid,
+                })
+
         else:
             print(error)
-            flash(error)
+            flash(error, category='error')
 
     return render_template('items/sell.html')
 
@@ -164,7 +172,7 @@ def view(id):
     # Inform the user if he/she has won the bid
     if winning_bid:
         if item.closes_at < datetime.utcnow() and winning_bid.bidder == current_user:
-            flash("Congratulations! You won the auction!")
+            flash(_("Congratulations! You won the auction!"))
     # If the bidding is already over and user is not the winner, do not load view of the item
     elif item.closes_at < datetime.utcnow():
         items = Item.objects.all()
@@ -191,20 +199,24 @@ def update(id):
         error = None
 
         if not title:
-            error = 'Title is required.'
+            error = _('Title is required.')
 
         try:
             item.title = title
             item.description = description
             item.save()
         except Exception as exc:
-            error = f"Error updating item: {exc!s}"
+            error = _("Error updating item: %(exc)s", exc=exc)
+            logger.warning("Error updating item: %s", exc, exc_info=True, extra={
+                'item_id': item.id,
+            })
         else:
-            flash("Item updated successfully!")
+            flash(_("Item updated successfully!"))
             return redirect(url_for('items.index'))
 
         print(error)
-        flash(error)
+        flash(error, category='error')
+
 
     return render_template('items/update.html', item=item)
 
@@ -218,9 +230,10 @@ def delete(id):
     try:
         item.delete()
     except Exception as exc:
-        error = f"Error deleting item: {exc!s}"
-        print(error)
-        flash(error)
+        logger.warning("Error deleting item: %s", exc, exc_info=True, extra={
+            'item_id': item.id,
+        })
+        flash(_("Error deleting item: %(exc)s", exc=exc), category='error')
     else:
         flash("Item deleted successfully!")
     return redirect(url_for('items.index'))
@@ -263,7 +276,8 @@ def bid(id):
     except Exception as exc:
         flash(f"Error placing bid: {exc!s}")
     else:
-        flash("Bid placed successfully!")
+        flash(_("Bid placed successfully!"))
+
 
     return redirect(url_for('items.view', id=id))
 
