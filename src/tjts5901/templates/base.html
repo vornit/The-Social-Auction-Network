@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fi_FI.UTF-8">
+<html lang="{{get_locale()}}">
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -37,18 +37,19 @@
       <a class="nav-item nav-link" href="{{ url_for('auth.profile', email="me") }}" >{{ current_user['email'] }}</a>
       <a class="nav-item nav-link" href="{{ url_for('auth.logout') }}" >{{_("Log out")}}</a>
       <a class="nav-item nav-link" href="{{ url_for('items.index') }}">{{_("Items")}}</a>
-      
-      <form action="/action_page.php">
-      <label for="cars">Choose a car:</label>
-      <select name="cars" id="cars">
-      <option value="volvo">Volvo</option>
-      <option value="saab">Saab</option>
-      <option value="opel">Opel</option>
-      <option value="audi">Audi</option>
-      </select>
-      <br><br>
-      <input type="submit" value="Submit">
-      </form>
+
+      <li class="nav-item">
+            <div class="dropdown">
+              <button class="btn nav-link dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                {{_("Language")}}
+              </button>
+              <div class="dropdown-menu" id="locale-selector">
+                {% for _, lang in locales.items() %}
+                  <a class="dropdown-item {% if lang|lower == get_locale()|lower %}active{% endif %}" href="{{ url_for(request.endpoint, **dict(request.view_args, locale=lang)) }}">{{lang.display_name}}</a>
+                {% endfor %}
+              </div>
+            </div>
+          </li>
 
     {% else %}
       <a class="nav-item nav-link" href="{{ url_for('auth.register') }}">{{_("Register")}}</a>
@@ -57,12 +58,24 @@
 </nav>
 <section class="content">
   <header>
-    {% block header %}{% endblock %}
-  </header>
-  {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
-  {% block content %}{% endblock %}
-</section>
-</body>
+        {% block header %}
+            <h1>{{ config['BRAND'] }}</h1>
+        {% endblock %}
+      </header>
+      <main class="content">
+        {% for message in get_flashed_messages() %}
+          <div class="container">
+            <div class="flash alert alert-primary">{{ message }}</div>
+          </div>
+        {% endfor %}
+
+        {% block content %}
+          <!-- MAIN CONTENT BLOCK MISSING -->
+        {% endblock %}
+      </main>
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+  </body>
 </html>
