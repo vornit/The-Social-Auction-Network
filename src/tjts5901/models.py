@@ -63,8 +63,8 @@ class Item(db.Document):
     description = StringField(max_length=1500, required=True)
 
     starting_bid = IntField(required=True, min_value=0)
-
-    leading_bid = StringField(max_length=100)
+    leading_bid = ReferenceField("Bid")
+    winning_bid = ReferenceField("Bid")
 
     seller = ReferenceField(User, required=True)
 
@@ -82,6 +82,14 @@ class Bid(db.Document):
     """
     A model for bids on items.
     """
+    
+    meta = {"indexes": [
+        {"fields": [
+            "amount",
+            "item",
+            "created_at",
+        ]}
+    ]}
 
     amount = IntField(required=True, min_value=0)
     "Indicates the value of the bid."
