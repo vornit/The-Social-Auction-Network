@@ -3,7 +3,7 @@
 {% block header %}
   <h1>{% block title %}Items{% endblock %}</h1>
   {% if current_user.is_authenticated %}
-    <a class="action btn btn-primary" href="/sell">New</a>
+    <a class="action btn btn-primary" href="/sell">{{_("New item")}}</a>
   {% endif %}
 {% endblock %}
 
@@ -11,12 +11,12 @@
 <table class="table">
     <thead class="thead-light">
       <tr>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Starting bid</th>
-        <th>Seller</th>
-        <th>Created At</th>
-        <th>Closes At</th>
+        <th>{{_("Title")}}</th>
+        <th>{{_("Description")}}</th>
+        <th>{{_("Starting bid")}}</th>
+        <th>{{_("Seller")}}</th>
+        <th>{{_("Created At")}}</th>
+        <th>{{_("Closes At")}}</th>
       </tr>
     </thead>
     <tbody>
@@ -24,7 +24,7 @@
       <tr>
         <td><a href="{{ url_for('items.view', id=item['id']) }}">{{ item.title }}</a></td>
         <td>{{ item.description }}</td>
-        <td>{{ item.starting_bid }}</td>
+        <td>{{ item.starting_bid|localcurrency }}</td>
         <td>{{ item.seller.email }}</td>
         <td>{{ item.created_at }}</td>
         <td>{{ item.closes_at }}</td>

@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Log In{% endblock %}</h1>
+  <h1>{% block title %}{{_("Log In")}}{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   <form action="{{ url_for('auth.login') }}" method="POST" class="mt-4">
-    <label for="email">Email</label>
+    <label for="email">{{_("Email")}}</label>
     <input name="email" id="email" required>
-    <label for="password">Password</label>
+    <label for="password">{{_("Password")}}</label>
     <input type="password" name="password" id="password" required>
-    <p>Remember me: <input name="remember-me" class="form-check-input" type="checkbox"></p>
-    <input type="submit" value="Log In">
+    <p>{{ _("Remember me") }}: <input name="remember-me" class="form-check-input" type="checkbox"></p>
+    <input type="submit" value="{{_("Log In")}}">
   </form>
 {% endblock %}
