@@ -70,6 +70,8 @@ def create_app(config: Optional[Dict] = None) -> Flask:
     from .auth import init_auth
     init_auth(flask_app)
 
+    from .currency import init_currency
+    init_currency(flask_app)
 
     from . import items
     flask_app.register_blueprint(items.bp)

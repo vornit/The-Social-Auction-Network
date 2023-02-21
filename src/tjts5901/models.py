@@ -29,6 +29,11 @@ class User(UserMixin, db.Document):
 
     password = StringField()
 
+    locale = StringField(default=SupportedLocales.EN.value)
+    currency = StringField(max_length=3)
+    "The user's preferred currency."
+
+
     locale = EnumField(SupportedLocales)
 
     created_at = DateTimeField(required=True, default=datetime.utcnow)

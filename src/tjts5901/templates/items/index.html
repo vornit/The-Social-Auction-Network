@@ -24,7 +24,7 @@
       <tr>
         <td><a href="{{ url_for('items.view', id=item['id']) }}">{{ item.title }}</a></td>
         <td>{{ item.description }}</td>
-        <td>{{ item.starting_bid }}</td>
+        <td>{{ item.starting_bid|localcurrency }}</td>
         <td>{{ item.seller.email }}</td>
         <td>{{ item.created_at }}</td>
         <td>{{ item.closes_at }}</td>
