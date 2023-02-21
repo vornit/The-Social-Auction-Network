@@ -31,9 +31,11 @@ class SupportedLocales(Enum):
     FI = "fi_FI.UTF-8"
     "Finnish (Finland)"
 
+    SV = "sv_SE.UTF-8"
+    "Swedish (Sweden)"
+
     EN = "en_GB.UTF-8"
     "English (United Kingdom)"
-
 
 def init_babel(flask_app: Flask):
     """
