@@ -1,5 +1,5 @@
 ### Jaakko:
-Implemented notification API, did part of the final report.
+Implemented notification API and item closing, did part of the final report.
 
 ### Iiro:
 Fixed several bugs in the app. Also prepared the pitch part of the presentation and the cost calculations for the final report.
