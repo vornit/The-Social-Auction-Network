@@ -8,6 +8,9 @@ Fixed several bugs in the app. Also prepared the pitch part of the presentation 
 Wrote the features and used technologies listed and explained (use e.g. screenshots to illustrate)
 Did the evaluation of meeting the client requirements
 
+### Pertti:
+Implemented multi-currency functionality and language selection (works only locally)
+
 ## OWASP top ten week 5 considerations:
 These are the week five security considerations tjat can be also found in the final report:
 

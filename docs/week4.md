@@ -7,6 +7,9 @@ Updated the appearance of the app, added staging-stage to the pipeline as well a
 ### Renzo:
 Coordinated and Participated in the Privacy problems video
 
+### Pertti:
+Implemented rest interface and babel.
+
 ## OWASP top ten week 4 considerations:
 
 ### A02:2021 – Cryptographic Failures

@@ -6,6 +6,9 @@ Added userstories to gitlab and created a few more stories. Created registering 
 ### Iiro:
 Did the database setup on Azure and added the testing stage. Added 4 more OWASP considerations.
 
+### Pertti:
+Implemented item adding feature and items are listed in the page. Made login mandatory.
+
 ## OWASP top ten week 2 considerations:
 
 ### A02:2021 – Cryptographic Failures

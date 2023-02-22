@@ -7,6 +7,9 @@ Changed app to use flask-login and userprofile-page
 ### Renzo:
 Complemented the bug report secction on the readme.md file
 
+### Pertti:
+Implemented item bidding and item updating features. Set MongoDB.
+
 ## OWASP top ten week 3 considerations:
 
 ### A02:2021 – Cryptographic Failures
