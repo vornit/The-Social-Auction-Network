@@ -60,6 +60,10 @@ def create_app(config: Optional[Dict] = None) -> Flask:
     # Initialize the database connection.
     init_db(flask_app)
 
+    # Initialize the scheduler.
+    from .scheduler import init_scheduler  # pylint: disable=import-outside-toplevel
+    init_scheduler(flask_app)
+
     # A simple page that says hello for testing purpose
     @flask_app.route('/hello')
     def hello():
