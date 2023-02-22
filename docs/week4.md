@@ -4,6 +4,9 @@ Did bughunting, also fixed bugs in our application
 ### Iiro
 Updated the appearance of the app, added staging-stage to the pipeline as well as smoke tests. Also did bughunting and wrote a couple of bug reports for the two other teams.
 
+### Renzo:
+Coordinated and Participated in the Privacy problems video
+
 ## OWASP top ten week 4 considerations:
 
 ### A02:2021 – Cryptographic Failures
