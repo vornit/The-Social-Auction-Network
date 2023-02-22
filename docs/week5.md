@@ -4,6 +4,10 @@ Implemented notification API, did part of the final report.
 ### Iiro:
 Fixed several bugs in the app. Also prepared the pitch part of the presentation and the cost calculations for the final report.
 
+### Renzo:
+Wrote the features and used technologies listed and explained (use e.g. screenshots to illustrate)
+Did the evaluation of meeting the client requirements
+
 ## OWASP top ten week 5 considerations:
 These are the week five security considerations tjat can be also found in the final report:
 
